@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+
+   	  <!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-    	BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    	 <!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-  rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title> Volunteer Registration </title>
+  </head>
+
+
+  <body>
+    <div class="container-fluid">
+      <nav class="navbar navbar-default">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <a class="navbar-brand" href="#">
+            <img alt="Brand" src="images/..">
+            </a>
+           </div>
+         </div>
+       </nav>
+  
+      <div class= "row">
+        <div class="col-md-6 col-md-offset-3 col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2">
+          <form>
+            <div class="form-group has-error">
+              <label for="FName"> First Name </label>
+              <input type="text" class="form-control" id="fname" placeholder="First Name">
+            </div>
+
+            <div class="form-group has-error">
+              <label for="LName"> Last Name </label>
+              <input type="text" class="form-control" id="lname" placeholder="Last Name">
+            </div>
+
+            <div class="form-group has-error">
+              <label for="Add1"> Address 1 </label>
+              <input type="text" class="form-control" id="add1" placeholder=" ">
+            </div>
+
+            <div class="form-group has-error">
+              <label for="Add2"> Address 2 </label>
+              <input type="text" class="form-control" id="add2" placeholder=" ">
+            </div>
+
+            <div class="form-group has-error">
+              <label for="City"> City </label>
+              <input type="text" class="form-control" id="city" placeholder=" ">
+            </div>
+
+            <div class="form-group has-error">
+              <label for="State"> State </label>
+              <input type="text" class="form-control" id="state" placeholder=" ">
+            </div>
+
+            <div class="form-group has-error">
+              <label for="zip">Zip Code </label>
+              <input type="text" class="form-control" id="zip" placeholder=" ">
+            </div>
+
+            <div class="form-group has-error">
+              <label for="dob"> Date of Birth </label>
+              <input type="date" class="form-control" id="dob" placeholder=" ">
+            </div>
+
+            <div class="form-group">
+              <label for="phnumber"> Phone Number </label>
+              <input type="tel" class="form-control" id="phone" placeholder=" ">
+            </div>
+
+            <div class="form-group ">
+              <label for="Email"> Email </label>
+              <input type="email" class="form-control" id="email" placeholder=" ">
+            </div>
+
+            <div class="form-group ">
+              <label for="volunteer-type"> Volunteering Interest </label>
+              <div class="checkbox">
+                <label for="vol1">
+                  <input type="checkbox" value=" ">
+                  Food Sorting/Packing
+                </label>
+              </div>
+
+              <div class="checkbox">
+                <label for="vol2">
+                  <input type="checkbox" value=" ">
+                  Toy Sorting and Wrapping
+                </label>
+              </div>
+
+              <div class="checkbox">
+                <label for="vol3">
+                  <input type="checkbox" value=" ">
+                  Delivery Day
+                </label>
+              </div>
+              </label>
+            </div>
+
+            <label for="age-group"> Are you over 18 years of age?</label>
+            <div class="form-group">
+              <label class="checkbox-inline">
+              <input type="radio" name="agegroup" id="over18" value="true"> Yes
+              </label>
+              <label class="checkbox-inline">
+              <input type="radio" name="agegroup" id="under18" value="false"> No
+              </label>
+            </div>
+
+            <label for="before-vol"> Have you volunteered with us before? </label>
+            <div class="form-group ">
+              <label class="checkbox-inline">
+              <input type="radio" name="beforevol" id="before-yes" value="true"> Yes
+              </label>
+              <label class="checkbox-inline">
+              <input type="radio" name="beforevol" id="before-no" value="false"> No
+              </label>
+            </div>
+
+             <div class="form-group">
+              <label for="info"> Additional Info/Question </label>
+              <textarea class="form-control" rows="3" id="info"></textarea>
+            </div>
+
+            <label for="age-group"> I release Santee Santas Foundation from any and all liability while participating in events. </label>
+            <div class="form-group">
+              <label class="checkbox-inline">
+              <input type="checkbox" name="agree" id="agree" value="true"> Yes, I agree
+              </label>
+            </div>
+
+            <button type="button" class="btn btn-primary btn-lg btn-block" id="continue"> Continue</button>
+          </form>
+      
+        </div>
+      </div>
+
+      <div row>
+        <!--footer-->
+      </div>
+    </div>
+  </body>
+</html>
