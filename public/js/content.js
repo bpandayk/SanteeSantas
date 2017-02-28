@@ -16,8 +16,9 @@ var delivery=false;
 var agegroup=2;
 var volunteer=2;
 var additional;
+var agree=false;
 
-function validateForm() {
+function getValues() {
   fname = document.getElementById("fname").value;
   lname = document.getElementById("lname").value;
   add1 = document.getElementById("add1").value;
@@ -61,22 +62,105 @@ function validateForm() {
     volunteer=0;
   }
 
-  console.log(fname);
-  console.log(lname);
-  console.log(add1);
-  console.log(add2);
-  console.log(zip);
-  console.log(city);
-  console.log(state);
-  console.log(dob);
-  console.log(phone);
-  console.log(email);
-  console.log(foodsort);
-  console.log(toysort);
-  console.log(delivery);
-  console.log(agegroup);
-  console.log(volunteer);
-
-
+  if (document.getElementById("agree").checked){
+	  agree=true;
+  }
 
 }
+
+
+
+function validateForm(){
+  getValues();
+
+  var verify = true;
+  if (!fname){
+	  document.getElementById("l1").style.color="red";
+	  verify=false;
+  } else {
+	  document.getElementById("l1").style.color="black";
+  }
+  
+    if (!lname){
+	  document.getElementById("l2").style.color="red";	  
+	  verify=false;
+  } else {
+	  document.getElementById("l2").style.color="black";
+  }
+  
+    if (!add1){
+	  document.getElementById("l3").style.color="red";	  
+	  verify=false;
+  } else {
+	  document.getElementById("l3").style.color="black";
+  }
+  
+    if (!city){
+	  document.getElementById("l4").style.color="red";	  
+	  verify=false;
+  } else {
+	  document.getElementById("l4").style.color="black";
+  }
+  
+    if (!state){
+	  document.getElementById("l5").style.color="red";	  
+	  verify=false;
+  } else {
+	  document.getElementById("l5").style.color="black";
+  }
+  
+    if (!zip){
+	  document.getElementById("l6").style.color="red";	  
+	  verify=false;
+  } else {
+	  document.getElementById("l6").style.color="black";
+  }
+  
+  
+    if (!dob){
+	  document.getElementById("l7").style.color="red";	  
+	  verify=false;
+  } else {
+	  document.getElementById("l7").style.color="black";
+  }
+  
+    if (agegroup==2){
+	  document.getElementById("l8").style.color="red";	  
+	  verify=false;
+  } else {
+	  document.getElementById("l8").style.color="black";
+  }
+	
+  if (volunteer==2){
+	  document.getElementById("l9").style.color="red";  
+	  verify=false;
+  } else {
+	  document.getElementById("l9").style.color="black";
+  }
+
+  if (foodsort==false && toysort==false && delivery==false){
+	  document.getElementById("l10").style.color="red";	  
+	  verify=false;
+  } else {
+	  document.getElementById("l10").style.color="black";
+  }
+  
+  if (agree==false){
+	  document.getElementById("l11").style.color="red";  
+	  verify=false;
+  } else {
+	  document.getElementById("l11").style.color="black";
+  }
+  
+  return verify;
+  
+}
+
+function navNext(){
+   var ver=validateForm();
+   if (ver==true) {
+	   window.location.href="waiver.html";
+   }
+	
+}
+
