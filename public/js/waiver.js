@@ -35,12 +35,14 @@ var pInit;
   firebase.initializeApp(config);
   
 var database = firebase.database();
-var qLoc = window.location.search;
+
 
 
 function getQueries(queryString){
+	var qLoc = window.location.search;
 	var qString = decodeURIComponent(qLoc);
 	qString = qString.substring(1);
+
 	var i, list;
 	list = qString.split("&");
 	for (i=0; i< list.length; i++){
@@ -160,44 +162,30 @@ function validateWaiver(){
 }
 
 
+function getAge(){
+	var dat = new Date();
+	var m = dat.getMonth() +1;
+	var y = dat.getFullYear();
+	var dd = dat.getDate();
+ 
+    var qer = dob.split("-");
+	
+	var y1 = y-qer[0];	
+	var m1 = m-qer[1];
 
-function submitDataO(){
+	var d1 = dd-qer[2];
 
-	var ret1 = validateWaiver();
-
-	if (ret1==true){
-		var userId=fname+lname;
-
-		firebase.database().ref('Volunteers/over18/'+userId).set({
-		timestamp:Date(),
-		firstname:fname,
-		lastname:lname,
-		Age: 55,
-		address1:add1,
-		address2:add2,
-		City:city,
-		State:state,
-		ZipCode:zip,
-		DoB:dob,
-		Phone:phone,
-		Email:email,
-		FoodSort:foodsort,
-		ToySort:toysort,
-		Delivery:delivery,
-		Volunteer:volunteer,
-		Info:additional,
-		Initials:appInit
-		});	
-		
-		console.log("success");
-	}
+	var age= ((m1*30.42)+d1+(y1*12*30.42))/365;
+	age = parseInt(age,10);
+	return age;
+	
 }
-
 
 function submitDataU(){
  
 	var ret1 = validateWaiver();
-		console.log(ret1);
+	var age1 = getAge();
+	console.log(fname);
 	if (ret1==true){
 		var userId=fname+lname;
 
@@ -205,7 +193,7 @@ function submitDataU(){
 		timestamp:Date(),
 		firstname:fname,
 		lastname:lname,
-		Age: 55,
+		Age: age1,
 		address1:add1,
 		address2:add2,
 		City:city,
@@ -229,4 +217,35 @@ function submitDataU(){
 	}
 }
 
+function submitDataO(){
+
+	var ret1 = validateWaiver();
+	age2 = getAge();
+	console.log(fname);
+	if (ret1==true){
+		var userId=fname+lname;
+		firebase.database().ref('Volunteers/over18/'+userId).set({
+		timestamp:Date(),
+		firstname:fname,
+		lastname:lname,
+		Age: age2,
+		address1:add1,
+		address2:add2,
+		City:city,
+		State:state,
+		ZipCode:zip,
+		DoB:dob,
+		Phone:phone,
+		Email:email,
+		FoodSort:foodsort,
+		ToySort:toysort,
+		Delivery:delivery,
+		Volunteer:volunteer,
+		Info:additional,
+		Initials:appInit
+		});	
+		
+		console.log("success");
+	}
+}
 
