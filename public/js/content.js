@@ -33,7 +33,6 @@ function getValues() {
 
   if (document.getElementById("foodsort").checked){
     foodsort=true;
-    //rate_value = document.getElementById('r1').value;
   }
 
    if (document.getElementById("toysort").checked){
@@ -125,24 +124,24 @@ function validateForm(){
   }
   
     if (agegroup==2){
-	  document.getElementById("l8").style.color="red";	  
-	  verify=false;
-  } else {
-	  document.getElementById("l8").style.color="black";
-  }
-	
-  if (volunteer==2){
-	  document.getElementById("l9").style.color="red";  
+	  document.getElementById("l9").style.color="red";	  
 	  verify=false;
   } else {
 	  document.getElementById("l9").style.color="black";
   }
-
-  if (foodsort==false && toysort==false && delivery==false){
-	  document.getElementById("l10").style.color="red";	  
+	
+  if (volunteer==2){
+	  document.getElementById("l10").style.color="red";  
 	  verify=false;
   } else {
 	  document.getElementById("l10").style.color="black";
+  }
+
+  if (foodsort==false && toysort==false && delivery==false){
+	  document.getElementById("l8").style.color="red";	  
+	  verify=false;
+  } else {
+	  document.getElementById("l8").style.color="black";
   }
   
   if (agree==false){
@@ -158,8 +157,10 @@ function validateForm(){
 
 function navNext(){
    var ver=validateForm();
-   if (ver==true) {
-	   window.location.href="waiver.html";
+   if (ver==true && agegroup==1) {
+	   window.location.href="waiveradult.html";
+   } else if (ver==true && agegroup==0) {
+           window.location.href="waiver.html";
    }
 	
 }
