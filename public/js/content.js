@@ -18,6 +18,20 @@ var volunteer=2;
 var additional;
 var agree=false;
 
+
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyA6JtrlqORiTv0N8UidMQ3L2kk9Jz1o_g8",
+    authDomain: "santeesanta-c540f.firebaseapp.com",
+    databaseURL: "https://santeesanta-c540f.firebaseio.com",
+    storageBucket: "santeesanta-c540f.appspot.com",
+    messagingSenderId: "168894068507"
+  };
+  firebase.initializeApp(config);
+  
+var database = firebase.database();
+
+//function gets the value from the form and stores in the variable
 function getValues() {
   fname = document.getElementById("fname").value;
   lname = document.getElementById("lname").value;
@@ -33,7 +47,6 @@ function getValues() {
 
   if (document.getElementById("foodsort").checked){
     foodsort=true;
-    //rate_value = document.getElementById('r1').value;
   }
 
    if (document.getElementById("toysort").checked){
@@ -69,7 +82,7 @@ function getValues() {
 }
 
 
-
+//validates the form and if form is not valid then text turns into red
 function validateForm(){
   getValues();
 
@@ -125,24 +138,24 @@ function validateForm(){
   }
   
     if (agegroup==2){
-	  document.getElementById("l8").style.color="red";	  
-	  verify=false;
-  } else {
-	  document.getElementById("l8").style.color="black";
-  }
-	
-  if (volunteer==2){
-	  document.getElementById("l9").style.color="red";  
+	  document.getElementById("l9").style.color="red";	  
 	  verify=false;
   } else {
 	  document.getElementById("l9").style.color="black";
   }
-
-  if (foodsort==false && toysort==false && delivery==false){
-	  document.getElementById("l10").style.color="red";	  
+	
+  if (volunteer==2){
+	  document.getElementById("l10").style.color="red";  
 	  verify=false;
   } else {
 	  document.getElementById("l10").style.color="black";
+  }
+
+  if (foodsort==false && toysort==false && delivery==false){
+	  document.getElementById("l8").style.color="red";	  
+	  verify=false;
+  } else {
+	  document.getElementById("l8").style.color="black";
   }
   
   if (agree==false){
@@ -156,11 +169,27 @@ function validateForm(){
   
 }
 
+//function to navigate to next page after form is validated
 function navNext(){
    var ver=validateForm();
-   if (ver==true) {
-	   window.location.href="waiver.html";
+   if (ver==true && agegroup==1) {
+	   window.location.href="waiveradult.html?fname="+fname+"&lname="+lname+"&add1="+add1+
+	   "&add2="+add2+"&zip="+zip+"&city="+city+
+	   "&state="+state+"&dob="+dob+"&phone="+phone+"&email="+email+
+	   "&foodsort="+foodsort+"&toysort="+toysort+"&delivery="+delivery+"&agegroup="+agegroup+"&volunteer="+volunteer+
+	   "&additional="+additional;
+   } else if (ver==true && agegroup==0) {
+           window.location.href="waiver.html?fname="+fname+"&lname="+lname+"&add1="+add1+
+	   "&add2="+add2+"&zip="+zip+"&city="+city+
+	   "&state="+state+"&dob="+dob+"&phone="+phone+"&email="+email+
+	   "&foodsort="+foodsort+"&toysort="+toysort+"&delivery="+delivery+"&agegroup="+agegroup+"&volunteer="+volunteer+
+	   "&additional="+additional;
    }
 	
 }
+
+
+
+
+
 
