@@ -214,6 +214,7 @@ function submitDataU(){
 		});
 		
 	console.log("success");
+	window.location.href="thankyou.html?fname="+fname;
 	}
 }
 
@@ -246,6 +247,12 @@ function submitDataO(){
 		});	
 		
 		console.log("success");
+		window.location.href="thankyou.html?fname="+fname;
 	}
 }
 
+function getName(){
+	var name1 = getQueries("fname");
+	document.getElementById("thank").innerHTML="Hi "+ name1 + "!";
+	
+}
