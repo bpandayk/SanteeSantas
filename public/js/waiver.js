@@ -256,3 +256,7 @@ function getName(){
 	document.getElementById("thank").innerHTML="Hi "+ name1 + "!";
 	
 }
+
+function newApplication(){
+	window.location.href="index.html";
+}
