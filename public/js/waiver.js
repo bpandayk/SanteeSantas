@@ -121,14 +121,14 @@ function validateWaiver(){
 			document.getElementById("l3").style.color="red";		
 		ret=false;
 		} else {
-			document.getElementById("l3").style.color="black";		
+			document.getElementById("l3").style.color="white";		
 		}
 	
 		if(!pLname){
 			document.getElementById("l4").style.color="red";		
 			ret=false;
 		} else {
-			document.getElementById("l4").style.color="black";		
+			document.getElementById("l4").style.color="white";		
 		}
 	
 	
@@ -136,7 +136,7 @@ function validateWaiver(){
 			document.getElementById("l2").style.color="red";
 			ret=false;
 		} else {	
-			document.getElementById("l2").style.color="black";		
+			document.getElementById("l2").style.color="white";		
 		}
 	
 	}
@@ -145,14 +145,14 @@ function validateWaiver(){
 	    document.getElementById("l0").style.color="red";
 		ret=false;
 	} else {
-	    document.getElementById("l0").style.color="black";		
+	    document.getElementById("l0").style.color="white";		
 	}
 	
 		if (!appInit) {
 	    document.getElementById("l1").style.color="red";		
 		ret=false;
 	} else {
-	    document.getElementById("l1").style.color="black";		
+	    document.getElementById("l1").style.color="white";		
 	}
 	
   

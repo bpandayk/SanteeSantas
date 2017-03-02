@@ -91,42 +91,42 @@ function validateForm(){
 	  document.getElementById("l1").style.color="red";
 	  verify=false;
   } else {
-	  document.getElementById("l1").style.color="black";
+	  document.getElementById("l1").style.color="white";
   }
   
     if (!lname){
 	  document.getElementById("l2").style.color="red";	  
 	  verify=false;
   } else {
-	  document.getElementById("l2").style.color="black";
+	  document.getElementById("l2").style.color="white";
   }
   
     if (!add1){
 	  document.getElementById("l3").style.color="red";	  
 	  verify=false;
   } else {
-	  document.getElementById("l3").style.color="black";
+	  document.getElementById("l3").style.color="white";
   }
   
     if (!city){
 	  document.getElementById("l4").style.color="red";	  
 	  verify=false;
   } else {
-	  document.getElementById("l4").style.color="black";
+	  document.getElementById("l4").style.color="white";
   }
   
     if (!state){
 	  document.getElementById("l5").style.color="red";	  
 	  verify=false;
   } else {
-	  document.getElementById("l5").style.color="black";
+	  document.getElementById("l5").style.color="white";
   }
   
     if (!zip){
 	  document.getElementById("l6").style.color="red";	  
 	  verify=false;
   } else {
-	  document.getElementById("l6").style.color="black";
+	  document.getElementById("l6").style.color="white";
   }
   
   
@@ -141,28 +141,28 @@ function validateForm(){
 	  document.getElementById("l9").style.color="red";	  
 	  verify=false;
   } else {
-	  document.getElementById("l9").style.color="black";
+	  document.getElementById("l9").style.color="white";
   }
 	
   if (volunteer==2){
 	  document.getElementById("l10").style.color="red";  
 	  verify=false;
   } else {
-	  document.getElementById("l10").style.color="black";
+	  document.getElementById("l10").style.color="white";
   }
 
   if (foodsort==false && toysort==false && delivery==false){
 	  document.getElementById("l8").style.color="red";	  
 	  verify=false;
   } else {
-	  document.getElementById("l8").style.color="black";
+	  document.getElementById("l8").style.color="white";
   }
   
   if (agree==false){
 	  document.getElementById("l11").style.color="red";  
 	  verify=false;
   } else {
-	  document.getElementById("l11").style.color="black";
+	  document.getElementById("l11").style.color="white";
   }
   
   return verify;

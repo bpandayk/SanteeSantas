@@ -7,7 +7,7 @@ body{
   -o-background-size: cover;
   background-size: cover;*/
   background-color:#C21717;
-  padding-top:120px;
+  padding-top:140px;
   padding-bottom:80px;
   color:white;
   
@@ -19,6 +19,7 @@ body{
   font-weight:bold;
 }
 
+
 #mainbox{
   border-radius:25px;
   border: 6px solid #73AD21;
@@ -29,20 +30,27 @@ body{
 
 }
 
+.mx{
+  float:left;
+}
+
 #headr{
 background-image:url("../images/wallpaper12.jpg");
-  height:90px;
+  height:120px;
 }
 
 #sanhead{
   font-family: christmas;
   color:white;
-  font-size:4vw;
+  font-size:5vw;
   text-align:center;
-
+  position:fixed;
+  padding-left:5%;
 }
 
 #santaimage{
-  width:100px;
-  height:100px;
+  max-width:100px;
+  max-height:100px;
+  min-width:50px;
+  min-height:50px;
 }
