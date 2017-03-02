@@ -1,0 +1,46 @@
+body{
+  /*background-image:url("../images/wallpaper3.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+-webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;*/
+  background-color:#C21717;
+  padding-top:120px;
+  padding-bottom:80px;
+  
+}
+
+@font-face {
+  font-family:christmas;
+  src:url(../fonts/chris.ttf);
+  font-weight:bold;
+}
+
+#mainbox{
+  border-radius:25px;
+  border: 6px solid #73AD21;
+  background-color:#C9D881;
+  padding-top:20px;
+  padding-bottom:50px;  
+
+}
+
+#headr{
+background-image:url("../images/wallpaper12.jpg");
+  height:90px;
+}
+
+#sanhead{
+  font-family: christmas;
+  color:white;
+  font-size:6vw;
+  text-align:center;
+
+}
+
+#santaimage{
+  width:100px;
+  height:100px;
+}
