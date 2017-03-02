@@ -9,6 +9,7 @@ body{
   background-color:#C21717;
   padding-top:120px;
   padding-bottom:80px;
+  color:white;
   
 }
 
@@ -21,7 +22,8 @@ body{
 #mainbox{
   border-radius:25px;
   border: 6px solid #73AD21;
-  background-color:#C9D881;
+  /*background-color:#428bca;*/
+  background-image:url("../images/wallpaper12.jpg");
   padding-top:20px;
   padding-bottom:50px;  
 
@@ -35,7 +37,7 @@ background-image:url("../images/wallpaper12.jpg");
 #sanhead{
   font-family: christmas;
   color:white;
-  font-size:6vw;
+  font-size:4vw;
   text-align:center;
 
 }
