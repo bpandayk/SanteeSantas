@@ -1,5 +1,5 @@
 UCSD ENG100D WI17
-Santee Santas Volunteer Signup and Waiver Redesign
+Santee Santas Electronic Volunteer Waiver
 
 Created by:
 Bibek Kshetri
