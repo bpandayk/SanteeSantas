@@ -24,7 +24,7 @@ body{
   border-radius:25px;
   border: 6px solid #73AD21;
   /*background-color:#428bca;*/
-  background-image:url("../images/wallpaper12.jpg");
+  background-image:url("../images/Website bg.jpg");
  background-attachment: center;
   padding-top:20px;
   padding-bottom:50px;  
@@ -47,7 +47,7 @@ body{
 }
 
 #headr{
-background-image:url("../images/wallpaper12.jpg");
+background-image:url("../images/Website bg.jpg");
   height:120px;
 }
 
