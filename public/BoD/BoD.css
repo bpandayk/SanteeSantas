@@ -1,0 +1,18 @@
+body{
+	padding-top:50px;
+
+}
+
+.leftcol{
+	border-right:2px solid green;
+	height:80%;
+  min-height:100%;
+}
+
+.searchform{
+	padding-top:30px;
+}
+
+#signinbox{
+	padding-top:10%;
+}
