@@ -23,6 +23,12 @@ var database = firebase.database();
 var date1 = new Date();
 var year = date1.getFullYear();
 
+var user = localStorage.getItem("firebase:authUser:AIzaSyA6JtrlqORiTv0N8UidMQ3L2kk9Jz1o_g8:[DEFAULT]");
+var parser = JSON.parse(user);
+var UID = parser.uid;
+var username = parser.displayName;
+var email=parser.email;
+console.log(UID);
 
 var panel = '<div class="panel panel-primary">'+
   					'<div class="panel-heading"><h3>Volunteers List for '+year+'</h3></div>'+
@@ -58,12 +64,6 @@ function searchParam(){
     delivery=true;
   }
 
-console.log(searchName);
-console.log(minage);
-console.log(maxage);
-console.log(foodsort);
-console.log(toysort);
-console.log(delivery);
 
   ListByParam(searchName,minage, maxage, foodsort, toysort, delivery);
     
@@ -73,16 +73,17 @@ console.log(delivery);
 
 function ListAll(){
 
-	return firebase.database().ref('/Volunteers/over18').once('value').then(function(snapshot) {
+	return firebase.database().ref('/Volunteers').once('value').then(function(snapshot) {
   	var data = snapshot.val();
     var name, age, toy, food, volunteer;
     var key = Object.keys(data);
     var display = panel;
     var count=1;
-   
+
+
     for(i in key) {
-			name = data[key[i]].firstname +" "+ data[key[i]].lastname 
-      age=data[key[i]].Age
+			name = data[key[i]].firstname +" "+ data[key[i]].lastname;
+      age=data[key[i]].Age;
       if(data[key[i]].FoodSort == 'true'){
         food='&#10004';
       }else{
@@ -95,7 +96,7 @@ function ListAll(){
         toy='<span style="color:red">&#10008';
       }
 
-      if(data[key[i]].Volunteer == 'true'){
+      if(data[key[i]].Delivery == 'true'){
         volunteer='&#10004';
       }else{
         volunteer='<span style="color:red">&#10008';
@@ -117,8 +118,6 @@ function ListAll(){
     }   
 
     display=display+end;
-    console.log(display);
-
     document.getElementById("insertDom").innerHTML=display;
 
 	});
@@ -128,9 +127,11 @@ function ListAll(){
 
 function ListByParam(name,minage, maxage, foodsort, toysort, delivery){
 	if(name && !minage && !maxage && !foodsort && !toysort && !delivery){
-    //search by full name
-    //search by first name
-    //search by last name
+    var name1 = name.toUpperCase();
+  	var ref = firebase.database().ref("Volunteers");
+ 	  ref.orderByChild("ToySort").equalTo("true").on("value", function(snapshot) {
+ 		  console.log(snapshot.val())
+});
   } else {
     
  
@@ -146,6 +147,17 @@ function getDetail(alias){
 
 }
 
+function logout() {
+	firebase.auth().signOut().then(function() {
+	    if (typeof(Storage) !== "undefined"){
+          localStorage.setItem("current", undefined);
+		window.location.href="signIn.html";
+	    console.log("logged out succesfully!");
+     	}
+	}, function(error){
+	     console.log(error);
+	});
+}
 
 
 

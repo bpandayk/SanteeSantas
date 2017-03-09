@@ -186,8 +186,11 @@ function submitDataU(){
 	console.log(fname);
 	if (ret1==true){
 		var userId=fname+lname;
+    userId=userId.toUpperCase();
+    fname=fname.toUpperCase();
+    lname=lname.toUpperCase();
 
-		firebase.database().ref('Volunteers/under18/'+userId).set({
+		firebase.database().ref('Volunteers/'+userId).set({
 		timestamp:Date(),
 		firstname:fname,
 		lastname:lname,
@@ -223,7 +226,11 @@ function submitDataO(){
 	console.log(fname);
 	if (ret1==true){
 		var userId=fname+lname;
-		firebase.database().ref('Volunteers/over18/'+userId).set({
+    userId=userId.toUpperCase();
+    fname=fname.toUpperCase();
+    lname=lname.toUpperCase();
+
+		firebase.database().ref('Volunteers/'+userId).set({
 		timestamp:Date(),
 		firstname:fname,
 		lastname:lname,
