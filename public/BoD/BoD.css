@@ -10,9 +10,14 @@ body{
 }
 
 .searchform{
-	padding-top:30px;
+	padding-top:30%;
 }
 
 #signinbox{
 	padding-top:10%;
+}
+
+#insertDom{
+	padding-top:5%;
+
 }
