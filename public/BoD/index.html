@@ -18,14 +18,15 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-     <link rel="stylesheet" href="BoD.css">        
+     <link rel="stylesheet" href="BoD.css">  
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.3/jspdf.debug.js"></script>	 
         <script src="js/controlBod.js"></script>
 
     <title> BoD Portal </title>
   </head>
 
 
-  <body onload="ListAll()">
+  <body onload="ListAll(0)">
     <div class="container-fluid">
       <nav class="navbar navbar-default navbar-fixed-top"  id="headr">
         <div class="container-fluid" style="width:100%">
@@ -38,8 +39,8 @@
        </nav>
       
       <div class="container-fluid">
-        <div class="row leftrow">
-          <div class="col-md-2 col-sm-2 col-xs-3 leftcol" >
+        <div class="row leftrow" id="mainrow">
+          <div class="col-md-2 col-sm-2 col-xs-3 leftcol" id="leftcol">
     		  <div class="container-fluid">
 						<form class="searchform">
             	<div class="form-group">
@@ -73,7 +74,7 @@
 							</div>
 
             </form>
-					  </div>
+		  </div>
           </div>
           
           <div class="col-md-9 col-md-offset-right-1 col-sm-10">
@@ -85,5 +86,5 @@
           </div>
         </div>
       </div>
-   <body>
+   </body>
 

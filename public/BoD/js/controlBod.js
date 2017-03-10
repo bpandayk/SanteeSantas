@@ -22,6 +22,13 @@ var database = firebase.database();
 //var userId = firebase.auth().currentUser.uid;
 var date1 = new Date();
 var year = date1.getFullYear();
+var pdfdoc=new jsPDF('p','pt','letter','landscape');
+
+var specialElementHandlers = {
+    '#bypassme': function (element, renderer) {
+        return true;
+    }
+};
 
 /*var user = localStorage.getItem("firebase:authUser:AIzaSyA6JtrlqORiTv0N8UidMQ3L2kk9Jz1o_g8:[DEFAULT]");
 var parser = JSON.parse(user);
@@ -33,6 +40,17 @@ console.log(UID);
 var panel = '<div class="panel panel-primary">'+
   					'<div class="panel-heading"><h3 id="header">Volunteers List for '+year+'</h3></div>'+
   					'<table class="table table-hover table-bordered">'+
+             '<tr>'+
+              '<th>#</th>'+
+              '<th>Name</th>'+
+              '<th>Age</th>'+
+              '<th>Food Sorting</th>'+
+              '<th>Toy Sorting</th>'+
+              '<th>Delivery</th>'+
+              '<th>Misc</th>'+
+             '</tr>';
+			 
+var panel2 = '<div id="tabled"><table class="table" >'+
              '<tr>'+
               '<th>#</th>'+
               '<th>Name</th>'+
@@ -77,7 +95,7 @@ function searchParam(){
 
 
 
-function DisplayTable(data){
+function DisplayTable(data,temp){
 	var name, age,toyval,foodval,deliveryval, toy, food, delivery;
     var key = Object.keys(data);
     var display = panel;
@@ -125,17 +143,90 @@ function DisplayTable(data){
       count++;
       
     }   
-
-    display=display+end;
+	//var temp = '<div><input type="button" class="btn btn-primary btn-lg " value="View Waiver" onclick="printList(\''+data+'\')"></div>';
+    display=display+(end+temp);
     document.getElementById("insertDom").innerHTML=display;
 }
 
 
-function ListAll(){
+function PrintTable(data, pORs){    //pORs-1 to save in pdf 0 to print
+	var name, age,toyval,foodval,deliveryval, toy, food, delivery;
+    var key = Object.keys(data);
+    var display = panel2;
+    var count=1;
+
+
+    for(i in key) {
+	  name = data[key[i]].firstname +" "+ data[key[i]].lastname;
+      age=data[key[i]].Age;
+	  
+	  foodval=data[key[i]].FoodSort;
+	  toyval=data[key[i]].ToySort;
+	  deliveryval=data[key[i]].Delivery;
+	 
+	  
+      if(foodval == "true"){
+        food='Yes';
+      }else{
+        food='No';
+      }
+
+      if(toyval == "true"){
+        toy='Yes';
+      }else{
+        toy='No';
+      }
+
+      if(deliveryval == "true"){
+        delivery='Yes';
+      }else{
+        delivery='No';
+      }
+     
+       
+      var addhtml = '<tr onclick="getDetail(\''+key[i]+'\')">'+
+                    '<td>'+count+'</td>'+
+                    '<td>'+name +'</td>'+
+                    '<td>'+age +'</td>'+
+                    '<td>'+food +'</td>'+
+                    '<td>'+toy +'</td>'+
+                    '<td>'+delivery +'</td>'+
+                    '<td>'+'Del' +'</td>'+'</tr>';
+     
+ 			display = display + addhtml;
+      count++;
+      
+    }   
+    var par = document.getElementById("mainrow");
+	var child = document.getElementById("leftcol");
+	par.removeChild(child);
+    display=display+(end);
+    document.getElementById("insertDom").innerHTML=display;
+	if(pORs==1){window.print();}
+	if(pORs==2){
+		pdfdoc.fromHTML($('#tabled')[0],15,15,{
+			'width':170,
+			'elementHandlers': specialElementHandlers
+		});
+		pdfdoc.save("table.pdf")
+	}
+	
+}
+
+
+
+
+
+function ListAll(opt){
 
 	return firebase.database().ref('/Volunteers').once('value').then(function(snapshot) {
   	var data = snapshot.val();
-    DisplayTable(data);
+	if (opt==0) {
+		var temp = '<div><input type="button" class="btn btn-primary btn-lg " value="Print" onclick="ListAll(1)">'+
+		'<div style="float:right;"><input type="button" class="btn btn-primary btn-lg " value="Save" onclick="ListAll(2)"></div></div>';
+		DisplayTable(data,temp);
+	}
+    if (opt==1 || opt==2 ){PrintTable(data, opt);}
 	});
 
 }
@@ -254,7 +345,15 @@ function getDetail(alias){
 		
 		
 		panel=panel+temp;
-		
+
+    if(data.Age < 18){
+		temp = '<tr>'+
+				'<td> Parents/Guardian Name </td>'+
+				'<td>'+data.parentFirstName+ " " +data.parentLastName+'</td>'+
+				'</tr>';	
+		panel=panel+temp; 
+
+    }
 		
         if(data.Info!=" "){
 			temp = '<tr>'+
@@ -263,13 +362,17 @@ function getDetail(alias){
 				'</tr>';	
 		panel=panel+temp;
 		}  		
-		
+
+
+    temp = '<div><input type="button" class="btn btn-primary btn-lg " value="View Waiver" onclick="printWaiver(\''+data+'\')"></div>';
+		panel=panel+(end+temp);
     document.getElementById("insertDom").innerHTML=panel;		
 	});
-
-
-
 }
+
+print
+
+
 
 function logout() {
 	firebase.auth().signOut().then(function() {
@@ -282,6 +385,7 @@ function logout() {
 	     console.log(error);
 	});
 }
+
 
 
 
