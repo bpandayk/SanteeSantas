@@ -46,7 +46,7 @@
                 <div class="col-md-10 col-md-offset-1 col-xs-12 col-xs-offset-0 col-sm-10 col-sm-offset-1">
           <form id = "form1">
             <div class="form-group">
-               <label for="title"> <h2> Volunteer Application </h2></label>
+               <label for="title"> <h2> <font size="+10"> Volunteer Application </font></h2></label>
             </div>
             <div class="form-group has-error" style="padding-top:20px;">
               <label for="FName" id="l1"> First Name </label>
@@ -120,9 +120,33 @@
                   Delivery Day
                 </label>
               </div>
-              </label>
+			  
+			   <div class="checkbox">
+                <label for="vol4">
+                  <input type="checkbox" id="mailer">
+                  Business Mailer
+                </label>
+              </div>
+			  
+			  <div class="checkbox">
+                <label for="vol5">
+                  <input type="checkbox" id="application_intake">
+                  Application Intake
+                </label>
+              </div>
+<!-- i put in line java script for this because I copied it from stack overflow. If you want to change it so it is more consistent feel free -->
+			<div class="checkbox">
+                <label for="vol6">
+					<input type="checkbox" id="other_interests" onclick="var input = document.getElementById('other_interests_text'); if(this.checked){ input.disabled = false; input.focus();}else{input.disabled=true;}" /> 
+					Other Interests (eg. fundraiser)
+				</label>
+			</div>
+			 <div class="form-group">
+				<input id="other_interests_text" name="other_interests_text" disabled="disabled" class="form-control" rows="1" placeholder="Input Interests here"/> 
             </div>
-
+			
+			
+<!-- removing this at Sam's request
             <label for="age-group" id="l9"> Are you over 18 years of age?</label>
             <div class="form-group">
               <label class="checkbox-inline">
@@ -142,19 +166,20 @@
               <input type="radio" name="beforevol" id="before-no"> No
               </label>
             </div>
-
+-->
              <div class="form-group">
               <label for="info"> Additional Info/Question </label>
               <textarea class="form-control" rows="3" id="info"></textarea>
             </div>
 
+<!-- Removing this at Sam's request
             <label for="age-group" id="l11"> I release Santee Santas Foundation from any and all liability while participating in events. </label>
             <div class="form-group">
               <label class="checkbox-inline">
               <input type="checkbox" name="agree" id="agree" value="true"> Yes, I agree
               </label>
             </div>
-            
+-->
            <div class="row">
  		<div class="col-md-6 col-md-offset-3 col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2">
           	  <button type="button" class="btn btn-primary btn-lg btn-block" id="continue" onclick="navNext()"> Continue</button></div></div>

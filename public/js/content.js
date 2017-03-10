@@ -44,7 +44,7 @@ function getValues() {
   phone = document.getElementById("phone").value;
   email = document.getElementById("email").value;
   additional = document.getElementById("info").value;
-
+  
   if (document.getElementById("foodsort").checked){
     foodsort=true;
   }
@@ -58,7 +58,23 @@ function getValues() {
     delivery=true;
 
   }
+  
+    if (document.getElementById("mailer").checked){
+    mailer=true;
 
+  }
+   
+   if (document.getElementById("application_intake").checked){
+    application_intake=true;
+
+  }
+  
+  if (document.getElementById('other_interests').checked){
+	  other_interests=true;
+  }
+// removed all this so can be deleted. Left it commented in case i break something
+
+/*
   if (document.getElementById("over18").checked){
     agegroup=1;
   }
@@ -78,7 +94,7 @@ function getValues() {
   if (document.getElementById("agree").checked){
 	  agree=true;
   }
-
+*/
 }
 
 
@@ -129,7 +145,7 @@ function validateForm(){
 	  document.getElementById("l6").style.color="white";
   }
   
-  
+/* this we no longer need   
     if (!dob){
 	  document.getElementById("l7").style.color="red";	  
 	  verify=false;
@@ -150,21 +166,21 @@ function validateForm(){
   } else {
 	  document.getElementById("l10").style.color="white";
   }
-
-  if (foodsort==false && toysort==false && delivery==false){
+*/
+  if (foodsort==false && toysort==false && delivery==false && mailer==false && application_intake=false && other_interests=false){
 	  document.getElementById("l8").style.color="red";	  
 	  verify=false;
   } else {
 	  document.getElementById("l8").style.color="white";
   }
-  
+/* this we no longer need   
   if (agree==false){
 	  document.getElementById("l11").style.color="red";  
 	  verify=false;
   } else {
 	  document.getElementById("l11").style.color="white";
   }
-  
+*/  
   return verify;
   
 }
