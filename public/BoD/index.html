@@ -34,57 +34,59 @@
            <div class="button">
              <input class="btn btn-primary" type="button" value="Log Out" onclick="logout()"> 
            </div>
-           </div>
-         </div>
-       </nav>
+          </div>
+        </div>
+      </nav>
       
       <div class="container-fluid">
         <div class="row leftrow" id="mainrow">
-          <div class="col-md-2 col-sm-2 col-xs-3 leftcol" id="leftcol">
-    		  <div class="container-fluid">
-						<form class="searchform">
-            	<div class="form-group">
-								<label for="search">Search by Name</label>
-								<input type="text" class="form-control" id="searchbyname">							
-							</div>
-              <form>
-           	  <div class="form-group">
-								<label for="search">Search by Age</label>
-                  <div class="form-inline">
-										<input type="text" class="form-control" id="minage" placeholder="Min" style="width:40%;">
-										<span>-<span>		
-										<input type="text" class="form-control" id="maxage" placeholder="Max" style="width:45%;">				
-                	</div>				
-							  </div></form>
+          <div class="col-md-2 col-sm-2 leftcol"  id="leftcol">
+    		    <div class="leftcolCon">
+						  <form class="searchform" >
+            	  <div class="form-group">
+								 <label for="search">Search by Name</label>
+								 <input type="text" class="form-control" id="searchbyname" style="width:50%;"">							
+							  </div>
+                <form>
+           	      <div class="form-group">
+								    <label for="search">Search by Age</label>
+                    <div class="form-inline">
+										  <input type="text" class="form-control" id="minage" placeholder="Min" style="width:20%;">
+										  <span>-<span>		
+										  <input type="text" class="form-control" id="maxage" placeholder="Max" style="width:24%;">				
+                	  </div>				
+							    </div>
+                </form>
 
-           		<div class="form-group">
+           		  <div class="form-group">
 								  <label for="search">Volunteer Type</label>
-									<div class="checkbox">
+								  <div class="checkbox">
       						  <label><input type="checkbox" id="foodsort"> Food Sorting </label>
-									</div>
-									<div class="checkbox">
-         						<label><input type="checkbox" id="toysort"> Toy Sorting </label>
-									</div>
-									<div class="checkbox">
-         						<label><input type="checkbox" id="delivery"> Delivery Day </label>
-									</div>
-							</div>
-           	<div class="form-group">
-								<input class="btn btn-primary btn-lg btn-block" type="submit" value="Update Search" onclick="searchParam()" ></button>							
-							</div>
+								  </div>
+								  <div class="checkbox">
+         					  <label><input type="checkbox" id="toysort"> Toy Sorting </label>
+								  </div>
+								  <div class="checkbox">
+         					  <label><input type="checkbox" id="delivery"> Delivery Day </label>
+								  </div>
+						    </div>
 
-            </form>
-		  </div>
+                <div class="form-group">
+							   <input class="btn btn-primary btn-lg btn-block" type="submit" value="Update Search" onclick="searchParam()" style="width:60%"></button>							
+							  </div>
+              </form>
+		        </div>
           </div>
           
-          <div class="col-md-9 col-md-offset-right-1 col-sm-10">
-
-            <div id = "insertDom"> </div>
-
-
-
+          <div class="col-md-9 col-sm-10" >
+    		    <div class="container">
+              <div id = "insertDom"> </div>
+              <div id="insertWaiver" id="waiver" style="padding-top:20px; visibility:hidden;"></div>
+            </div>
           </div>
         </div>
       </div>
-   </body>
+    </div>
+  </body>
+</html>
 

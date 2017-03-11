@@ -5,8 +5,8 @@ body{
 
 .leftcol{
 	border-right:2px solid green;
-	height:80%;
-  min-height:100%;
+  position:relative;
+
 }
 
 .searchform{
@@ -21,3 +21,4 @@ body{
 	padding-top:5%;
 
 }
+
