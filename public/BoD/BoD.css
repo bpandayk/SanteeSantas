@@ -1,5 +1,5 @@
 body{
-	padding-top:50px;
+	padding-top:70px;
 
 }
 
@@ -10,7 +10,7 @@ body{
 }
 
 .searchform{
-	padding-top:30%;
+
 }
 
 #signinbox{
@@ -22,3 +22,8 @@ body{
 
 }
 
+@media (min-width: 768px) {
+    .leftcolCon {
+        position: fixed;
+    }
+}
