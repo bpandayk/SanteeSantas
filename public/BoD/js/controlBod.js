@@ -17,6 +17,7 @@ var delivery="false";
     messagingSenderId: "168894068507"
   };
   firebase.initializeApp(config);
+
   
 var database = firebase.database();
 var date1 = new Date();
@@ -72,24 +73,26 @@ var end= '</table></div>';
 
 
 function checkUser(){
-	if (UID=="R7QmljrUXkS0qtNsZf1WiNFFs4D3") {
+	if (UID=="gNHEHWUZ4ySaw08S2RvDsaFx47q2") {
 		//Display options
 		var dom = '<label for="search"><hr/><h2>Admin Menu</h2></label>'+
+									'<div class="form-group">'+
+									'<input class="btn btn-primary btn-lg btn-block" type="submit" value="Volunteers" onclick="ListAll(0)" style="width:60%"></button>'+ 								
+								'</div>'+
                 '<div class="form-group">'+
-									'<input class="btn btn-primary btn-lg btn-block" type="submit" value="Add members" onclick="signUpBOD()" style="width:60%"></button>'+ 								
-								'</div>';
+									'<input class="btn btn-primary btn-lg btn-block" type="submit" value="Add members" onclick="displaysignUpBOD()" style="width:60%"></button>'+ 								
+								'</div>'+
 
-								/*<div class="form-group">
-									<input class="btn btn-primary btn-lg btn-block" type="submit" value="Add members" onclick="searchParam()" style="width:60%"></button> 								
-								</div> */
+								'<div class="form-group">'+
+									'<input class="btn btn-primary btn-lg btn-block" type="submit" value="View members" onclick="displayMembersBOD()" style="width:60%"></button> '+								
+								'</div>' ;
+
     document.getElementById("admindom").innerHTML=dom;
     ListAll(0);
 
 	} else {
   	ListAll(0);
   }
-    
-
 }
 
 function searchParam(){
@@ -441,7 +444,7 @@ data.Email+ '</span></div></div>';
 
 
 
-    document.getElementById("insertWaiver").innerHTML=waiver+buttonT2;
+    document.getElementById("insertWaiver").innerHTML= waiver+buttonT2;
 	  document.getElementById("insertWaiver").style.position="fixed";
   
     }
@@ -545,4 +548,9 @@ var secondpart="  I understand that photographs may be taken during events in w
 
 
 var adult="I am 18 years of age or older.";
+
+
+
+
+
 
