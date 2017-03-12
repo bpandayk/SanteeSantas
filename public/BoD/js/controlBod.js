@@ -72,12 +72,23 @@ var end= '</table></div>';
 
 
 function checkUser(){
-	if (UID="R7QmljrUXkS0qtNsZf1WiNFFs4D3") {
+	if (UID=="R7QmljrUXkS0qtNsZf1WiNFFs4D3") {
 		//Display options
+		var dom = '<label for="search"><hr/><h2>Admin Menu</h2></label>'+
+                '<div class="form-group">'+
+									'<input class="btn btn-primary btn-lg btn-block" type="submit" value="Add members" onclick="signUpBOD()" style="width:60%"></button>'+ 								
+								'</div>';
 
-
-	}
+								/*<div class="form-group">
+									<input class="btn btn-primary btn-lg btn-block" type="submit" value="Add members" onclick="searchParam()" style="width:60%"></button> 								
+								</div> */
+    document.getElementById("admindom").innerHTML=dom;
     ListAll(0);
+
+	} else {
+  	ListAll(0);
+  }
+    
 
 }
 

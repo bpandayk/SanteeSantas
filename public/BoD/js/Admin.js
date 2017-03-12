@@ -1,17 +1,20 @@
-var Fname;
-var Lname;
-var email;
-var phone;
-var password;
+var bFname;
+var bLname;
+var bEmail;
+var bPhone;
+var bPassword;
 
 
 
-//function to signup the new BOD memebers.
-function signUpBOD(){
-	
+//function to display signup form the new BOD memebers.
+function displaysignUpBOD(){
+	var html = 
 
 }
 
 
-//fun
-function 
+//function to signup
+function signUpBOD(){
+
+
+}
