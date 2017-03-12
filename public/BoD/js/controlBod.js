@@ -19,7 +19,6 @@ var delivery="false";
   firebase.initializeApp(config);
   
 var database = firebase.database();
-//var userId = firebase.auth().currentUser.uid;
 var date1 = new Date();
 var year = date1.getFullYear();
 var pdfdoc=new jsPDF('p','pt','letter','landscape');
@@ -33,13 +32,15 @@ var specialElementHandlers = {
 		var buttonT = '<div><input type="button" class="btn btn-primary btn-lg " value="Print" onclick="ListAll(1)">'+
 		'<div style="float:right;"><input type="button" class="btn btn-primary btn-lg " value="Save" onclick="ListAll(2)"></div></div>';
 
-/*var user = localStorage.getItem("firebase:authUser:AIzaSyA6JtrlqORiTv0N8UidMQ3L2kk9Jz1o_g8:[DEFAULT]");
+var user = localStorage.getItem("firebase:authUser:AIzaSyA6JtrlqORiTv0N8UidMQ3L2kk9Jz1o_g8:[DEFAULT]");
 var parser = JSON.parse(user);
 var UID = parser.uid;
 var username = parser.displayName;
 var email=parser.email;
 console.log(UID);
-*/
+
+
+
 var panel = '<div class="panel panel-primary">'+
   					'<div class="panel-heading"><h3 id="header">Volunteers List for '+year+'</h3></div>'+
   					'<table class="table table-hover table-bordered" style="position:relative; overflow:scroll;">'+
@@ -67,6 +68,18 @@ var panel2 = '<div id="tabled"><table class="table" >'+
 
 var end= '</table></div>';
 
+
+
+
+function checkUser(){
+	if (UID="R7QmljrUXkS0qtNsZf1WiNFFs4D3") {
+		//Display options
+
+
+	}
+    ListAll(0);
+
+}
 
 function searchParam(){
 	searchName=document.getElementById("searchbyname").value;
@@ -222,6 +235,8 @@ function PrintTable(data, pORs){    //pORs-1 to save in pdf 0 to print
 
 function ListAll(opt){
 
+
+
 	return firebase.database().ref('/Volunteers').once('value').then(function(snapshot) {
   	var data = snapshot.val();
 	if (opt==0) {
@@ -251,8 +266,9 @@ function ListByParam(name,minage, maxage, foodsort, toysort, delivery){
 
 
 
-
 function getDetail(alias){
+	var buttonT2 = '<div><input type="button" class="btn btn-primary btn-lg " value="Print" onclick="getDetail(1)">'+
+	'<div style="float:right;"><input type="button" class="btn btn-primary btn-lg " value="Save" onclick="getDetail(2)"></div></div>';
 	var ref = firebase.database().ref("Volunteers/"+alias);
 	ref.once('value').then(function(snapshot){
     var ageGroup=1;
@@ -279,6 +295,7 @@ function getDetail(alias){
 					'</tr>';
 			panel = panel+temp;
 		}
+
 		
 		temp = 	'<tr>'+
 				'<td> City </td>'+
@@ -385,7 +402,7 @@ function getDetail(alias){
 							'<div style="border:3px solid #73AD21; padding:10px;">'+ firstpart+       
  							'</div>'+
 							'<label for="photo"><h3>Photo Release</h3></label>'+
-             '<div style="border:3px solid #73AD21; padding:10px;">'+ secondpart+ adult;  
+             '<div style="border:3px solid #73AD21; padding:10px;">'+ secondpart+ adult+ 
               '</div>'+
             '<div class="form-group ">'+
               '<div class="checkbox">'+
@@ -393,28 +410,44 @@ function getDetail(alias){
                   '<input type="checkbox" id="waiver-agree" checked disabled> <span id="l0">'+
                   'Click here to indicate that you agree to our terms and that you have read our Volunteers Waivers and Photo Release terms.</span>'+
                 '</label>'+
-              '</div>'+
-            '<div class="form-inline">'+
-              '<label for="initials" id="l1">Applicant Initial </label>'+
+              '</div></div></div></div>' +
+							'<div><div class="form-group">'+
+              '<label for="initials" id="l1">Applicant Initial: '+ data.Initials+'</label>'+
+							
             '</div>'+
-              '</div></div></div>';
+              '<div class="form-group"><label for="name" style= "padding-right:10px;"> Applicant Name: </label><span style="font-weight:bold;">'+data.firstname+ ' ' + data.lastname +
+ '</span> </div>'+
+'<div class="form-group"><label for="name" style= "padding-right:10px;"> Applicant Address: </label>' + '<span style="font-weight:bold;">'+data.address1 + '&nbsp&nbsp' +data.address2+
+'</span> </div>'+
+'<div class="form-group"><label for="name" style= "padding-right:10px;"> City: </label> <span style="font-weight:bold;">'+data.City+
+ '</span><label for="name" style= "padding-right:10px; padding-left:30px;"> State: </label><span style="font-weight:bold;">'+data.State+ 
+'</span> <label for="name" style= "padding-right:10px;padding-left:30px;"> Zip Code: ' + data.ZipCode +'</label>'+
+' </span></div>'+
+ '<div class="form-group"><label for="name" style= "padding-right:10px;"> Phone Number:' +
+'</label><span style="font-weight:bold;">'+ data.Phone + '</span><label for="name" style= "padding-right:10px; padding-left:30px;"> Email: </label>" + "<span style="font-weight:bold;">'+
+data.Email+ '</span></div></div>';
 
 
 
-    document.getElementById("insertWaiver").innerHTML=waiver+buttonT;
+
+    document.getElementById("insertWaiver").innerHTML=waiver+buttonT2;
+	  document.getElementById("insertWaiver").style.position="fixed";
   
     }
+
+
+
 
 
     if(ageGroup==0){
        var waiver=	'<div class="panel panel-primary">'+
   					  '<div class="panel-heading"><h3 id="header">Waiver</h3></div>'+
-             ' <div class="panel-body">'+'<div>  '+       
-							'<h2><span>Adult Volunteer Waiver Form</span></h2> '+ '<h4><span clasee="label">WAIVER, RELEASE OF ALL CLAIMS, AND HOLD HARMLESS AGREEMENT FOR ADULT PARTICIPATION IN SANTEE 									SANTAS FOUNDATION PROGRAMS.</span></h4></div>'+
+             ' <div class="panel-body">'+'<div>'+       
+							'<h2><span>Child(18 and under) Volunteer Waiver Form</span></h2> '+ '<h4><span clasee="label">WAIVER, RELEASE OF ALL CLAIMS, AND HOLD HARMLESS AGREEMENT FOR PERSON UNDER  18 YEARS OF AGE PARTICIPATION IN SANTEE SANTAS FOUNDATION PROGRAMS.</span></h4></div>'+
 							'<div style="border:3px solid #73AD21; padding:10px;">'+ firstpart+       
  							'</div>'+
 							'<label for="photo"><h3>Photo Release</h3></label>'+
-             '<div style="border:3px solid #73AD21; padding:10px;">'+ secondpart+ adult;  
+             '<div style="border:3px solid #73AD21; padding:10px;">'+ secondpart+ adult+  
               '</div>'+
             '<div class="form-group ">'+
               '<div class="checkbox">'+
@@ -423,16 +456,28 @@ function getDetail(alias){
                   'Click here to indicate that you agree to our terms and that you have read our Volunteers Waivers and Photo Release terms.</span>'+
                 '</label>'+
               '</div>'+
-            '<div class="form-inline">'+
-              '<label for="initials" id="l1">Applicant Initial: </label>'+" "+
-							'<label for="initials" style="padding-left:20px" id="l2">Parent/Guardian Initial: </label>'+" "+
-            '</div>'+
-              '</div></div></div>';
+            '</div></div></div>'+
+'<div> <div class="form-group "><div class="form-inline">'+
+              '<label for="initials" id="l1">Applicant Initial: '+ data.Initials+'</label>'+
+							'<label for="initials" style="padding-left:20px" id="l2">Parent/Guardian Initial: '+data.parentInitials+'</label>'+
+            '</div></div>'+
+              '<div class="form-group"><label for="name" style= "padding-right:10px;"> Applicant Name: </label><span style="font-weight:bold;">'+data.firstname+ ' ' + data.lastname +
+ '</span> </div>'+
+'<div class="form-group"><label for="name" style= "padding-right:10px;"> Applicant Guardian/Parent: </label><span style="font-weight:bold;">'+data.parentFirstName+ ' '+ data.parentLastName+'</span></div>'+
+'<div class="form-group"><label for="name" style= "padding-right:10px;"> Applicant Address: </label>' + '<span style="font-weight:bold;">'+data.address1 + '&nbsp&nbsp' +data.address2+
+'</span> </div>'+
+'<div class="form-group"><label for="name" style= "padding-right:10px;"> City: </label> <span style="font-weight:bold;">'+data.City+
+ '</span><label for="name" style= "padding-right:10px; padding-left:30px;"> State: </label><span style="font-weight:bold;">'+data.State+ 
+'</span> <label for="name" style= "padding-right:10px;padding-left:30px;"> Zip Code: ' + data.ZipCode +'</label>'+
+' </span></div>'+
+ '<div class="form-group"><label for="name" style= "padding-right:10px;"> Phone Number:' +
+'</label><span style="font-weight:bold;">'+ data.Phone + '</span><label for="name" style= "padding-right:10px; padding-left:30px;"> Email: </label>" + "<span style="font-weight:bold;">'+
+data.Email+ '</span></div></div>';
 
 
 
-   		 document.getElementById("insertWaiver").innerHTML=waiver+buttonT;
-  
+   		 document.getElementById("insertWaiver").innerHTML=waiver+buttonT2;
+       document.getElementById("insertWaiver").style.position="fixed";
    }
 
  
@@ -441,22 +486,27 @@ function getDetail(alias){
 
 
 function viewWaiver(){
+      document.getElementById("insertWaiver").style.position="static";
       document.getElementById("insertWaiver").style.visibility="visible";
       document.getElementById("viewbutton").innerHTML='<input type="button" class="btn btn-primary btn-lg " value="Hide Waiver" onclick="hideWaiver()" >';
 } 
 
 
 function hideWaiver(){
+      document.getElementById("insertWaiver").style.position="fixed";
       document.getElementById("insertWaiver").style.visibility="hidden";
       document.getElementById("viewbutton").innerHTML='<input type="button" class="btn btn-primary btn-lg " value=" View Waiver" onclick="viewWaiver()" >';
 } 
 
 
-	
+function printWaiver(){
+
+}
 
 
+function savewaiver(){
 
-
+}
 
 
 
