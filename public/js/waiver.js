@@ -13,14 +13,16 @@ var email;
 var foodsort=false;
 var toysort=false;
 var delivery=false;
-var agegroup=2;
-var volunteer=2;
+var mailer=false;
+var appliaction_intake=false;
+var other_interests=false;
 var additional;
 var agree=false;
 var pFname;
 var pLname;
 var appInit;
 var pInit;
+var agegroup=2;
 
 
 
@@ -68,9 +70,11 @@ function getValues(){
 	foodsort=getQueries("foodsort");
 	toysort=getQueries("toysort");
 	delivery=getQueries("delivery");
-	agegroup=getQueries("agegroup");
-	volunteer=getQueries("volunteer");
+	mailer=getQueries("mailer");
+	application_intake=getQueries("application_intake");
+	other_interests=getQueries("other_interests");
 	additional=getQueries("additional");
+  agegroup=getQueries("agegroup");
 }
 
 function loadInfo(){
@@ -160,24 +164,6 @@ function validateWaiver(){
 }
 
 
-function getAge(){
-	var dat = new Date();
-	var m = dat.getMonth() +1;
-	var y = dat.getFullYear();
-	var dd = dat.getDate();
- 
-    var qer = dob.split("-");
-	
-	var y1 = y-qer[0];	
-	var m1 = m-qer[1];
-
-	var d1 = dd-qer[2];
-
-	var age= ((m1*30.42)+d1+(y1*12*30.42))/365;
-	age = parseInt(age,10);
-	return age;
-	
-}
 
 function submitDataU(){
  
@@ -206,7 +192,9 @@ function submitDataU(){
 		FoodSort:foodsort,
 		ToySort:toysort,
 		Delivery:delivery,
-		Volunteer:volunteer,
+		Application_intake:application_intake,
+    Mailer:mailer,
+    Other_interests:other_interests,
 		Info:additional,
 		parentFirstName: pFname,
 		parentLastName: pLname,
@@ -217,6 +205,27 @@ function submitDataU(){
 	console.log("success");
 	window.location.href="thankyou.html?fname="+fname;
 	}
+}
+
+
+
+function getAge(){
+	var dat = new Date();
+	var m = dat.getMonth() +1;
+	var y = dat.getFullYear();
+	var dd = dat.getDate();
+ 
+    var qer = dob.split("-");
+	
+	var y1 = y-qer[0];	
+	var m1 = m-qer[1];
+
+	var d1 = dd-qer[2];
+
+	var age= ((m1*30.42)+d1+(y1*12*30.42))/365;
+	age = parseInt(age,10);
+	return age;
+	
 }
 
 function submitDataO(){
@@ -246,7 +255,9 @@ function submitDataO(){
 		FoodSort:foodsort,
 		ToySort:toysort,
 		Delivery:delivery,
-		Volunteer:volunteer,
+		Application_intake:application_intake,
+    Mailer:mailer,
+    Other_interests:other_interests,
 		Info:additional,
 		Initials:appInit
 		});	

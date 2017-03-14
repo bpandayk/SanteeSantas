@@ -125,7 +125,7 @@ function signUpBOD(){
 				displayName: bFname+" "+bLname
 			});
     }
-
+    
     bFname=bFname.toUpperCase();
     bLname=bLname.toUpperCase();
     var userId= bFname+bLname;
@@ -137,9 +137,15 @@ function signUpBOD(){
 			Phone:bPhone,
 			Email:bEmail,
 		});
+
+		firebase.auth().sendPasswordResetEmail(bEmail).then(function() {
+  		// Email sent.
+		}, function(error) {
+  		// An error happened.
+		});
 		
     
-
+    displayMembersBOD();
 		second.auth().signOut();
     
 
@@ -164,9 +170,28 @@ function displayMembersBOD(){
               '<th>Email</th>'+
               '<th>Misc</th>'+
              '</tr>';
+  console.log("yaha ayo");
+	return firebase.database().ref('/BOD').once('value').then(function(snapshot) {
+  		var data = snapshot.val();
+      var key = Object.keys(data);
+      var count=1;
 
+      for (i in key) {
+		    var temp = '<tr>'+
+									 '<td>'+count+'</td>'+
+									 '<td>'+data[key[i]].firstname + " "+ data[key[i]].lastname+'</td>'+
+									 '<td>'+data[key[i]].Phone+'</td>'+
+									 '<td>'+data[key[i]].Email+'</td>'+
+									 '<td>#</td>'+
+									 '</tr>';
+				panel = panel+temp;
+				count++;
+			}
 
+	panel = panel + '</table></div>';
   document.getElementById("insertDom").innerHTML=panel;
+	});
+
 }
 
 

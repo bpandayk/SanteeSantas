@@ -17,6 +17,10 @@ var agegroup=2;
 var volunteer=2;
 var additional;
 var agree=false;
+var mailer=false;
+var application_intake=false;
+var other_interests=false;
+
 
 
   // Initialize Firebase
@@ -145,14 +149,16 @@ function validateForm(){
 	  document.getElementById("l6").style.color="white";
   }
   
-/* this we no longer need   
+  
     if (!dob){
 	  document.getElementById("l7").style.color="red";	  
 	  verify=false;
   } else {
 	  document.getElementById("l7").style.color="black";
   }
-  
+
+
+  /*
     if (agegroup==2){
 	  document.getElementById("l9").style.color="red";	  
 	  verify=false;
@@ -167,7 +173,7 @@ function validateForm(){
 	  document.getElementById("l10").style.color="white";
   }
 */
-  if (foodsort==false && toysort==false && delivery==false && mailer==false && application_intake=false && other_interests=false){
+  if (foodsort==false && toysort==false && delivery==false && mailer==false && application_intake==false && other_interests==false){
 	  document.getElementById("l8").style.color="red";	  
 	  verify=false;
   } else {
@@ -182,24 +188,47 @@ function validateForm(){
   }
 */  
   return verify;
-  
+}
+
+
+
+function getAge(){
+	var dat = new Date();
+	var m = dat.getMonth() +1;
+	var y = dat.getFullYear();
+	var dd = dat.getDate();
+ 
+    var qer = dob.split("-");
+	
+	var y1 = y-qer[0];	
+	var m1 = m-qer[1];
+
+	var d1 = dd-qer[2];
+
+	var age= ((m1*30.42)+d1+(y1*12*30.42))/365;
+	age = parseInt(age,10);
+	return age;
+	
 }
 
 //function to navigate to next page after form is validated
 function navNext(){
    var ver=validateForm();
-   if (ver==true && agegroup==1) {
+   var agegro=getAge();
+   if (ver==true && agegro>=18) {
+     agegroup=1;
 	   window.location.href="waiveradult.html?fname="+fname+"&lname="+lname+"&add1="+add1+
 	   "&add2="+add2+"&zip="+zip+"&city="+city+
 	   "&state="+state+"&dob="+dob+"&phone="+phone+"&email="+email+
-	   "&foodsort="+foodsort+"&toysort="+toysort+"&delivery="+delivery+"&agegroup="+agegroup+"&volunteer="+volunteer+
-	   "&additional="+additional;
-   } else if (ver==true && agegroup==0) {
+	   "&foodsort="+foodsort+"&toysort="+toysort+"&delivery="+delivery+"&mailer="+mailer+"&application_intake="+application_intake+"&other_interests="+other_interests+
+	   "&additional="+additional+"&agegroup="+agegroup;
+   } else if (ver==true && agegro<18) {
+     agegroup=0;
            window.location.href="waiver.html?fname="+fname+"&lname="+lname+"&add1="+add1+
 	   "&add2="+add2+"&zip="+zip+"&city="+city+
 	   "&state="+state+"&dob="+dob+"&phone="+phone+"&email="+email+
-	   "&foodsort="+foodsort+"&toysort="+toysort+"&delivery="+delivery+"&agegroup="+agegroup+"&volunteer="+volunteer+
-	   "&additional="+additional;
+	   "&foodsort="+foodsort+"&toysort="+toysort+"&delivery="+delivery+"&mailer="+mailer+"&application_intake="+application_intake+"&other_interests="+other_interests+
+	   "&additional="+additional+"&agegroup="+agegroup;
    }
 	
 }

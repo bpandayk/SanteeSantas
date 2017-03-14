@@ -22,7 +22,7 @@ var delivery="false";
 var database = firebase.database();
 var date1 = new Date();
 var year = date1.getFullYear();
-var pdfdoc=new jsPDF('p','pt','letter','landscape');
+var pdfdoc=new jsPDF('l','pt','letter');
 
 var specialElementHandlers = {
     '#bypassme': function (element, renderer) {
@@ -52,7 +52,9 @@ var panel = '<div class="panel panel-primary">'+
               '<th>Food Sorting</th>'+
               '<th>Toy Sorting</th>'+
               '<th>Delivery</th>'+
-              '<th>Misc</th>'+
+              '<th>Mailer</th>'+
+              '<th>Application Intake</th>'+
+              '<th>Other Interests</th>'+
              '</tr>';
 			 
 var panel2 = '<div id="tabled"><table class="table" >'+
@@ -63,7 +65,9 @@ var panel2 = '<div id="tabled"><table class="table" >'+
               '<th>Food Sorting</th>'+
               '<th>Toy Sorting</th>'+
               '<th>Delivery</th>'+
-              '<th>Misc</th>'+
+              '<th>Mailer</th>'+
+              '<th>Application Intake</th>'+
+              '<th>Other Interests</th>'+
              '</tr>';
 
 
@@ -118,6 +122,13 @@ function searchParam(){
 	  delivery="false";
   }
 
+	if(!minage){
+    minage=0;
+  }
+
+  if(!maxage){
+    maxage=120;
+  }
 
   ListByParam(searchName,minage, maxage, foodsort, toysort, delivery);
     
@@ -126,7 +137,7 @@ function searchParam(){
 
 
 function DisplayTable(data,temp){
-	var name, age,toyval,foodval,deliveryval, toy, food, delivery;
+	var name, age,toyval,foodval,deliveryval,mailerval,applicationval,otherval, toy, food, delivery ,mailer,application,other;
     var key = Object.keys(data);
     var display = panel;
     var count=1;
@@ -139,6 +150,9 @@ function DisplayTable(data,temp){
 	  foodval=data[key[i]].FoodSort;
 	  toyval=data[key[i]].ToySort;
 	  deliveryval=data[key[i]].Delivery;
+	  otherval=data[key[i]].Other_interests;
+	  mailerval=data[key[i]].Mailer;
+	  applicationval=data[key[i]].Application_intake;
 	 
 	  
       if(foodval == "true"){
@@ -158,6 +172,26 @@ function DisplayTable(data,temp){
       }else{
         delivery='<span style="color:red">&#10008</span>';
       }
+
+
+			if(otherval == "true"){
+				other='&#10004';
+			}else{
+				other='<span style="color:red">&#10008</span>';
+			}
+
+			if(mailerval == "true"){
+				mailer='&#10004';
+			}else{
+				mailer='<span style="color:red">&#10008</span>';
+			}
+	
+			if(applicationval == "true"){
+				application='&#10004';
+			}else{
+				application='<span style="color:red">&#10008</span>';
+			}
+
      
        
       var addhtml = '<tr onclick="getDetail(\''+key[i]+'\')">'+
@@ -167,7 +201,10 @@ function DisplayTable(data,temp){
                     '<td>'+food +'</td>'+
                     '<td>'+toy +'</td>'+
                     '<td>'+delivery +'</td>'+
-                    '<td>'+'Del' +'</td>'+'</tr>';
+                    '<td>'+mailer +'</td>'+
+                    '<td>'+application +'</td>'+
+                    '<td>'+other +'</td>'+
+										'</tr>';
      
  			display = display + addhtml;
       count++;
@@ -180,7 +217,7 @@ function DisplayTable(data,temp){
 
 
 function PrintTable(data, pORs){    //pORs-1 to save in pdf 0 to print
-	var name, age,toyval,foodval,deliveryval, toy, food, delivery;
+	var name, age,toyval,foodval,deliveryval,mailerval,applicationval,otherval, toy, food, delivery, mailer,application,other;
     var key = Object.keys(data);
     var display = panel2;
     var count=1;
@@ -193,6 +230,9 @@ function PrintTable(data, pORs){    //pORs-1 to save in pdf 0 to print
 	  foodval=data[key[i]].FoodSort;
 	  toyval=data[key[i]].ToySort;
 	  deliveryval=data[key[i]].Delivery;
+	  other=data[key[i]].Other_interests;
+	  mailer=data[key[i]].Mailer;
+	  application=data[key[i]].Application_intake;
 	 
 	  
       if(foodval == "true"){
@@ -213,6 +253,24 @@ function PrintTable(data, pORs){    //pORs-1 to save in pdf 0 to print
         delivery='No';
       }
      
+      if(mailerval == "true"){
+        mailer='Yes';
+      }else{
+        mailer='No';
+      }
+
+      if(applicationval == "true"){
+        application='Yes';
+      }else{
+        application='No';
+      }
+
+      if(otherval == "true"){
+        other='Yes';
+      }else{
+        other='No';
+      }
+     
        
       var addhtml = '<tr onclick="getDetail(\''+key[i]+'\')">'+
                     '<td>'+count+'</td>'+
@@ -221,24 +279,39 @@ function PrintTable(data, pORs){    //pORs-1 to save in pdf 0 to print
                     '<td>'+food +'</td>'+
                     '<td>'+toy +'</td>'+
                     '<td>'+delivery +'</td>'+
-                    '<td>'+'Del' +'</td>'+'</tr>';
+                    '<td>'+mailer +'</td>'+
+                    '<td>'+application +'</td>'+
+                    '<td>'+other +'</td>'+
+										'</tr>';
      
  			display = display + addhtml;
       count++;
       
     }   
     var par = document.getElementById("mainrow");
-	var child = document.getElementById("leftcol");
-	par.removeChild(child);
+		var child = document.getElementById("leftcol");
+		par.removeChild(child);
     display=display+(end);
     document.getElementById("insertDom").innerHTML=display;
-	if(pORs==1){window.print();}
+	if(pORs==1){
+ 		window.print();
+    window.location.href="index.html";
+		//ListAll(0);
+    //document.getElementById("mainrow").innerHTML=leftCol + document.getElementById("mainrow").innerHTML;
+
+
+ 	}
 	if(pORs==2){
 		pdfdoc.fromHTML($('#tabled')[0],15,15,{
-			'width':170,
+			'width':200,
 			'elementHandlers': specialElementHandlers
 		});
-		pdfdoc.save("table.pdf")
+		pdfdoc.save("table.pdf");
+    window.location.href="index.html";
+    //document.getElementById("mainrow").innerHTML+=leftCol;
+    //ListAll(0);
+
+
 	}
 	
 }
@@ -248,8 +321,6 @@ function PrintTable(data, pORs){    //pORs-1 to save in pdf 0 to print
 
 
 function ListAll(opt){
-
-
 
 	return firebase.database().ref('/Volunteers').once('value').then(function(snapshot) {
   	var data = snapshot.val();
@@ -266,15 +337,78 @@ function ListAll(opt){
 
 
 function ListByParam(name,minage, maxage, foodsort, toysort, delivery){
-	if((foodsort || toysort ||delivery)&& (!name && !minage && !maxage)){
-    //var name1 = name.toUpperCase();
 
-  	var ref = firebase.database().ref("Volunteers");
- 	    ref.orderByChild("ToySort").equalTo(toysort).on("value", function(snapshot) {
+	var ref = firebase.database().ref("Volunteers");
+
+	if((foodsort=='false') && (toysort=='false') && (delivery=='false') && !name && minage==0 && maxage==120){
+   console.log("Nothing Selected");
+
+  } else if((foodsort=='false') && (toysort=='false') && (delivery=='false') && !name){
+    if (minage!=0 || maxage!=120){
+    //var name1 = name.toUpperCase();
+ 	    ref.orderByChild("Age").startAt(parseInt(minage)).endAt(parseInt(maxage)).on("value", function(snapshot) {
 			var data=snapshot.val();
 			DisplayTable(data);
         });
+    }
+  } else if(minage==0 && maxage==120 && !name){
+    if(foodsort=='true' || toysort=='true' || delivery=='true'){
+
+      if(foodsort=='true' && toysort=='false' && delivery=='false'){
+ 	   	 ref.orderByChild("FoodSort").equalTo(foodsort).on("value", function(snapshot) {
+					var data=snapshot.val();
+					DisplayTable(data);
+        });				 
+
+
+      } else if(foodsort=='false' && toysort=='true' && delivery=='false'){
+ 	   	 ref.orderByChild("ToySort").equalTo(toysort).on("value", function(snapshot) {
+					var data=snapshot.val();
+					DisplayTable(data);
+        });
+
+
+      } else if(foodsort=='false' && toysort=='false' && delivery=='true'){
+ 	   	 ref.orderByChild("Delivery").equalTo(delivery).on("value", function(snapshot) {
+					var data=snapshot.val();
+					DisplayTable(data);
+        });
+
+      } else {
+					ref.once('value').then(function(snapshot) {
+  				var data = snapshot.val();
+			 	  var key = Object.keys(data);
+       	  var list=[];
+
+       	  for(i in key){
+						if ( data[key[i]].FoodSort==foodsort && data[key[i]].ToySort==toysort && data[key[i]].Delivery==delivery){
+     					list.push(data[key[i]]);
+       	   }
+       	  }
+       	  DisplayTable(list);
+      	});
+      }
+    }
+  } else {
+ 			ref.once('value').then(function(snapshot) {
+  			var data = snapshot.val();
+			 	var key = Object.keys(data);
+       	var list=[];
+
+       	for(i in key){
+				if ( data[key[i]].FoodSort==foodsort && data[key[i]].ToySort==toysort && data[key[i]].Delivery==delivery && data[key[i]].Age >= minage && data[key[i]].Age <= maxage){
+     			list.push(data[key[i]]);
+       	}
+       	}
+       	DisplayTable(list);
+     });   
+
+
   }
+
+
+
+
 
 }
 
@@ -350,7 +484,11 @@ function getDetail(alias){
 		var val1=data.FoodSort;
 		var val2=data.ToySort;
 		var val3=data.Delivery;
-	    var food,toy,delivery;
+    var val4=data.Application_intake;
+    var val5=data.Mailer;
+    var val6=data.other_interests;
+
+	    var food,toy,delivery,application,mailer,other;
 	  
 		if(val1 == "true"){
 			food='&#10004';
@@ -370,6 +508,24 @@ function getDetail(alias){
 			delivery='<span style="color:red">&#10008</span>';
 		}
 
+		if(val4 == "true"){
+			mailer='&#10004';
+		}else{
+			mailer='<span style="color:red">&#10008</span>';
+		}
+
+		if(val5 == "true"){
+			application='&#10004';
+		}else{
+			application='<span style="color:red">&#10008</span>';
+		}
+
+		if(val6 == "true"){
+			other='&#10004';
+		}else{
+			other='<span style="color:red">&#10008</span>';
+		}
+
 		temp = 	'<tr>'+
 				'<td> Food Sorting </td>'+
 				'<td>'+food+'</td>'+
@@ -378,7 +534,16 @@ function getDetail(alias){
 				'<td>'+toy+'</td>'+
 				'</tr><tr>'+
 				'<td> Delivery </td>'+
-				'<td>'+delivery+'</td>'+	
+				'<td>'+delivery+'</td>'+
+        '</tr><tr>'+	
+				'<td> Mailer </td>'+
+				'<td>'+mailer+'</td>'+
+				'</tr><tr>'+
+				'<td> Application Intake </td>'+
+				'<td>'+application+'</td>'+
+				'</tr><tr>'+
+				'<td> Other Interest </td>'+
+				'<td>'+other+'</td>'+	
 				'</tr>';			
 		
 		
@@ -550,7 +715,45 @@ var secondpart="  I understand that photographs may be taken during events in w
 var adult="I am 18 years of age or older.";
 
 
+var leftCol =  '<div class="col-md-2 col-sm-2 leftcol"  id="leftcol">'+
+    		    '<div class="leftcolCon">'+
+						 ' <form class="searchform" >'+
+            	'  <div class="form-group">'+
+								' <label for="search">Search by Name</label>'+
+								 '<input type="text" class="form-control" id="searchbyname" style="width:50%;">	'+						
+							  '</div>'+
+                '<form>'+
+           	     ' <div class="form-group">'+
+								  '  <label for="search">Search by Age</label>'+
+                   ' <div class="form-inline">'+
+										'  <input type="text" class="form-control" id="minage" placeholder="Min" style="width:20%;">'+
+										 ' <span>-<span>'+	
+										  '<input type="text" class="form-control" id="maxage" placeholder="Max" style="width:24%;">	'+			
+                	  '</div>	'+			
+							   ' </div>'+
+                '</form>'+
 
+           		  '<div class="form-group">'+
+								 ' <label for="search">Volunteer Type</label>'+
+								  '<div class="checkbox">'+
+      						 ' <label><input type="checkbox" id="foodsort"> Food Sorting </label>'+
+								  '</div>'+
+								  '<div class="checkbox">'+
+         					 ' <label><input type="checkbox" id="toysort"> Toy Sorting </label>'+
+								  '</div>'+
+								  '<div class="checkbox">'+
+         					 ' <label><input type="checkbox" id="delivery"> Delivery Day </label>'+
+								  '</div>'+
+						    '</div>'+
+
+                '<div class="form-group">'+
+							   '<input class="btn btn-primary btn-lg btn-block" type="submit" value="Update Search" onclick="searchParam()" style="width:60%"></button>'+							
+							  '</div>'+
+                
+                '<div id="admindom">'+
+               '</div>'+
+              '</form>'+
+		        '</div>';
 
 
 
