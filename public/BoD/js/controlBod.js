@@ -343,6 +343,43 @@ function ListByParam(name,minage, maxage, foodsort, toysort, delivery){
 	if((foodsort=='false') && (toysort=='false') && (delivery=='false') && !name && minage==0 && maxage==120){
    console.log("Nothing Selected");
 
+  } else if((foodsort=='false') && (toysort=='false') && (delivery=='false') && minage==0 && maxage==120){
+    console.log("name ma ayo");
+    if(name){
+        name = name.toUpperCase();
+    		var spname = name.split(" ");
+        console.log(spname[0]);
+ 	   		ref.once("value", function(snapshot) {
+					var data=snapshot.val();
+        	var list=[];
+					var key = Object.keys(data);       		 
+					if (spname.length == 1){
+          for (i in key){
+						if ( data[key[i]].firstname==name){
+     					list.push(data[key[i]]);
+       	    } else if(data[key[i]].lastname==name){
+							list.push(data[key[i]]);         	
+            }          
+          
+          }
+				}else if(spname.length >=2){
+           for (i in key){   
+					 	if ( data[key[i]].firstname==spname[0] && data[key[i]].lastname==spname[1]){
+     					list.push(data[key[i]]);
+       	    }else if ( data[key[i]].firstname==spname[0]){
+     					list.push(data[key[i]]);
+       	    } else if (data[key[i]].lastname==spname[1]){
+     					list.push(data[key[i]]);
+       	    }  
+           }
+        }
+
+
+					DisplayTable(list);
+        });	
+
+  	}
+
   } else if((foodsort=='false') && (toysort=='false') && (delivery=='false') && !name){
     if (minage!=0 || maxage!=120){
     //var name1 = name.toUpperCase();
@@ -395,12 +432,39 @@ function ListByParam(name,minage, maxage, foodsort, toysort, delivery){
 			 	var key = Object.keys(data);
        	var list=[];
 
-       	for(i in key){
-				if ( data[key[i]].FoodSort==foodsort && data[key[i]].ToySort==toysort && data[key[i]].Delivery==delivery && data[key[i]].Age >= minage && data[key[i]].Age <= maxage){
-     			list.push(data[key[i]]);
-       	}
-       	}
-       	DisplayTable(list);
+       /* if(foodsort=='true' && toysort=='false' && delivery=='false'){
+       		for(i in key){
+						if ( data[key[i]].FoodSort==foodsort && data[key[i]].Age >= minage && data[key[i]].Age <= maxage){
+     					list.push(data[key[i]]);
+       			}
+       		}
+
+					
+        } else if(foodsort=='false' && toysort=='true' && delivery=='false'){
+       		for(i in key){
+						if (data[key[i]].ToySort==toysort && data[key[i]].Age >= minage && data[key[i]].Age <= maxage){
+     					list.push(data[key[i]]);
+       			}
+       		}
+					
+        } else if(foodsort=='false' && toysort=='false' && delivery=='true'){
+       		for(i in key){
+						if (data[key[i]].Delivery==delivery && data[key[i]].Age >= minage && data[key[i]].Age <= maxage){
+     					list.push(data[key[i]]);
+       			}
+       		}
+					
+        } else{*/
+       		for(i in key){
+						if ( data[key[i]].FoodSort==foodsort && data[key[i]].ToySort==toysort && data[key[i]].Delivery==delivery && data[key[i]].Age >= minage && data[key[i]].Age <= maxage){
+     					list.push(data[key[i]]);
+       			}
+       		}
+
+					
+       // }
+
+      	 	DisplayTable(list);
      });   
 
 
