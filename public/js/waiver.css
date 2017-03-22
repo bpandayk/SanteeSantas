@@ -6,7 +6,8 @@ body{
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;*/
-  background-color:#C21717;
+  /*background-color:#C21717;*/
+  background-image:url("../images/Website bg.jpg");
   padding-top:140px;
   padding-bottom:80px;
   color:white;
@@ -24,7 +25,7 @@ body{
   border-radius:25px;
   border: 6px solid #73AD21;
   /*background-color:#428bca;*/
-  background-image:url("../images/Website bg.jpg");
+  background-image:url("../images/Wallpaper8.jpg");
  background-attachment: center;
   padding-top:20px;
   padding-bottom:50px;  
