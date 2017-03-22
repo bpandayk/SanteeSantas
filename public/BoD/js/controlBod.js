@@ -1,12 +1,13 @@
-
 var searchName;
 var minage;
 var maxage;
 var foodsort="false";
 var toysort="false";
 var delivery="false";
-
-
+var sub;  //for email
+var body; //for email
+var emailList=[];
+var headTo = "";
 
  // Initialize Firebase
   var config = {
@@ -18,11 +19,16 @@ var delivery="false";
   };
   firebase.initializeApp(config);
 
-  
+var client_ID = '168894068507-9hidggcbih727gp3j5avvibk1n8ef65v.apps.googleusercontent.com';
+var Scopes = 'https://www.googleapis.com/auth/gmail.readonly '+
+        'https://www.googleapis.com/auth/gmail.send';
+
+var apiKey ='AIzaSyDzNFZIpou2Rag_5zJwiR0nZNJxvxH7YEo';  
 var database = firebase.database();
 var date1 = new Date();
 var year = date1.getFullYear();
 var pdfdoc=new jsPDF('l','pt','letter');
+
 
 var specialElementHandlers = {
     '#bypassme': function (element, renderer) {
@@ -30,8 +36,8 @@ var specialElementHandlers = {
     }
 };
 
-		var buttonT = '<div><input type="button" class="btn btn-primary btn-lg " value="Print" onclick="ListAll(1)">'+
-		'<div style="float:right;"><input type="button" class="btn btn-primary btn-lg " value="Save" onclick="ListAll(2)"></div></div>';
+		var buttonT = '<div><input type="button" class="btn btn-primary btn-lg " value="Print/Save" onclick="ListAll(1)">'+
+		'<div style="float:right;"><input type="button" class="btn btn-primary btn-lg " value="Send Email" data-toggle="modal" data-target="#myModal" onclick="putToEmail()"></div></div>';
 
 var user = localStorage.getItem("firebase:authUser:AIzaSyA6JtrlqORiTv0N8UidMQ3L2kk9Jz1o_g8:[DEFAULT]");
 var parser = JSON.parse(user);
@@ -89,7 +95,10 @@ function checkUser(){
 
 								'<div class="form-group">'+
 									'<input class="btn btn-primary btn-lg btn-block" type="submit" value="View members" onclick="displayMembersBOD()" style="width:60%"></button> '+								
-								'</div>' ;
+								'</div>'+
+								'<div class="form-group">'+
+									'<input class="btn btn-primary btn-lg btn-block" type="submit" value="Download Waivers" onclick="printAllWaivers()" style="width:60%"></button> '+								
+								'</div>'  ;
 
     document.getElementById("admindom").innerHTML=dom;
     ListAll(0);
@@ -141,7 +150,7 @@ function DisplayTable(data,temp){
     var key = Object.keys(data);
     var display = panel;
     var count=1;
-
+     emailList=[];
 
     for(i in key) {
 	  name = data[key[i]].firstname +" "+ data[key[i]].lastname;
@@ -153,6 +162,7 @@ function DisplayTable(data,temp){
 	  otherval=data[key[i]].Other_interests;
 	  mailerval=data[key[i]].Mailer;
 	  applicationval=data[key[i]].Application_intake;
+    emailList.push(data[key[i]].Email);
 	 
 	  
       if(foodval == "true"){
@@ -211,6 +221,7 @@ function DisplayTable(data,temp){
       
     }   
 	//var temp = '<div><input type="button" class="btn btn-primary btn-lg " value="View Waiver" onclick="printList(\''+data+'\')"></div>';
+
     display=display+(end+temp);
     document.getElementById("insertDom").innerHTML=display;
 }
@@ -310,8 +321,6 @@ function PrintTable(data, pORs){    //pORs-1 to save in pdf 0 to print
     window.location.href="index.html";
     //document.getElementById("mainrow").innerHTML+=leftCol;
     //ListAll(0);
-
-
 	}
 	
 }
@@ -373,9 +382,7 @@ function ListByParam(name,minage, maxage, foodsort, toysort, delivery){
        	    }  
            }
         }
-
-
-					DisplayTable(list);
+					DisplayTable(list, buttonT);
         });	
 
   	}
@@ -385,7 +392,7 @@ function ListByParam(name,minage, maxage, foodsort, toysort, delivery){
     //var name1 = name.toUpperCase();
  	    ref.orderByChild("Age").startAt(parseInt(minage)).endAt(parseInt(maxage)).on("value", function(snapshot) {
 			var data=snapshot.val();
-			DisplayTable(data);
+			DisplayTable(data, buttonT);
         });
     }
   } else if(minage==0 && maxage==120 && !name){
@@ -394,21 +401,21 @@ function ListByParam(name,minage, maxage, foodsort, toysort, delivery){
       if(foodsort=='true' && toysort=='false' && delivery=='false'){
  	   	 ref.orderByChild("FoodSort").equalTo(foodsort).on("value", function(snapshot) {
 					var data=snapshot.val();
-					DisplayTable(data);
+					DisplayTable(data, buttonT);
         });				 
 
 
       } else if(foodsort=='false' && toysort=='true' && delivery=='false'){
  	   	 ref.orderByChild("ToySort").equalTo(toysort).on("value", function(snapshot) {
 					var data=snapshot.val();
-					DisplayTable(data);
+					DisplayTable(data, buttonT);
         });
 
 
       } else if(foodsort=='false' && toysort=='false' && delivery=='true'){
  	   	 ref.orderByChild("Delivery").equalTo(delivery).on("value", function(snapshot) {
 					var data=snapshot.val();
-					DisplayTable(data);
+					DisplayTable(data, buttonT);
         });
 
       } else {
@@ -422,7 +429,7 @@ function ListByParam(name,minage, maxage, foodsort, toysort, delivery){
      					list.push(data[key[i]]);
        	   }
        	  }
-       	  DisplayTable(list);
+       	  DisplayTable(list, buttonT);
       	});
       }
     }
@@ -464,16 +471,9 @@ function ListByParam(name,minage, maxage, foodsort, toysort, delivery){
 					
        // }
 
-      	 	DisplayTable(list);
+      	 	DisplayTable(list, buttonT);
      });   
-
-
   }
-
-
-
-
-
 }
 
 
@@ -752,7 +752,117 @@ function savewaiver(){
 }
 
 
+/* ----------------------- Functions to send email -----------------------*/
 
+function sendEmail(){
+
+	function initalize() {
+		console.log("I am here");	
+  	gapi.auth.authorize({
+   		client_id: client_ID,
+    	scope: Scopes,
+    	immediate: false
+  	}, handleAuthResult);
+
+	}	
+
+	function handleAuthResult(authResult) {
+
+ 	  if (authResult && !authResult.error) {
+   	 loadGmailApi();
+  	}
+	}
+
+	function loadGmailApi() {
+  	gapi.client.load('gmail', 'v1', function() {
+  	  console.log("Gmail APi loaded");
+		  sendToAll();
+  	});
+	}
+
+
+	function validateEmail(){
+    var ret = true;
+    sub = document.getElementById("subjectEmail").value;
+	  body = document.getElementById("bodyEmail").value;
+    console.log(sub); console.log(body);
+    if (!sub){
+			document.getElementById("label1").style.color = "red";			
+			ret = false;
+    } else {
+			document.getElementById("label1").style.color = "black";
+		}
+
+		if(!body) {
+			document.getElementById("label2").style.color = "red";
+			ret = false;
+    } else {
+			document.getElementById("label2").style.color = "black";
+		}
+     
+		return ret;
+  }
+
+
+
+	function sendInit(){
+		var ret = validateEmail();
+    console.log(ret);
+    
+    if(ret){
+	 		gapi.client.setApiKey(apiKey); // your variable for apiKey
+   		window.setTimeout(initalize,1);			
+    } 
+  }
+
+
+  function sendToAll(){    
+		var head = { 'To': headTo,
+									'Subject' : sub};
+    
+    var email="From: 'me'\r\n";
+
+    for( var i in head){
+			email += i += ':'+head[i]+'\r\n';
+    }
+
+    email += "\r\n" + body;
+    console.log(window.btoa(email).replace(/\+/g, '-').replace(/\//g, '_'));
+
+    var sentRequest = gapi.client.gmail.users.messages.send({
+			'userId':'me',
+			'resource':{ 
+					'raw':window.btoa(email).replace(/\+/g, '-').replace(/\//g, '_')
+				}
+
+    });
+    
+
+    sentRequest.execute(function(){
+      console.log(arguments);
+    });
+  }
+
+  sendInit();
+
+}
+
+
+  function putToEmail(){
+		headTo=" ";
+		for (i in emailList){
+			if (emailList[i] != " ")
+				headTo+= (emailList[i]+',');
+    }
+    headTo=" ";
+    if (headTo!= " "){
+				document.getElementById("puttoemail").innerHTML='<label for="To">To</label><textarea class="form-control" id="ToEmail" placeholder='+headTo+' disabled></textarea>';
+    } else {
+				document.getElementById("puttoemail").innerHTML="<span style='color:red'>Email List is empty.</span>";
+    }
+  }
+
+/*------------------------------------------------------------------------*/
 
 
 
@@ -761,8 +871,8 @@ function logout() {
 	firebase.auth().signOut().then(function() {
 	    if (typeof(Storage) !== "undefined"){
           localStorage.setItem("current", undefined);
-		window.location.href="signIn.html";
-	    console.log("logged out succesfully!");
+					window.location.href="signIn.html";
+	   		 console.log("logged out succesfully!");
      	}
 	}, function(error){
 	     console.log(error);
