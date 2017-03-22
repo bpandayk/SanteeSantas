@@ -677,7 +677,7 @@ function getDetail(alias){
 '</span> <label for="name" style= "padding-right:10px;padding-left:30px;"> Zip Code: ' + data.ZipCode +'</label>'+
 ' </span></div>'+
  '<div class="form-group"><label for="name" style= "padding-right:10px;"> Phone Number:' +
-'</label><span style="font-weight:bold;">'+ data.Phone + '</span><label for="name" style= "padding-right:10px; padding-left:30px;"> Email: </label>" + "<span style="font-weight:bold;">'+
+'</label><span style="font-weight:bold;">'+ data.Phone + '</span><label for="name" style= "padding-right:10px; padding-left:30px;"> Email: </label><span style="font-weight:bold;">'+
 data.Email+ '</span></div></div>';
 
 
@@ -725,7 +725,7 @@ data.Email+ '</span></div></div>';
 '</span> <label for="name" style= "padding-right:10px;padding-left:30px;"> Zip Code: ' + data.ZipCode +'</label>'+
 ' </span></div>'+
  '<div class="form-group"><label for="name" style= "padding-right:10px;"> Phone Number:' +
-'</label><span style="font-weight:bold;">'+ data.Phone + '</span><label for="name" style= "padding-right:10px; padding-left:30px;"> Email: </label>" + "<span style="font-weight:bold;">'+
+'</label><span style="font-weight:bold;">'+ data.Phone + '</span><label for="name" style= "padding-right:10px; padding-left:30px;"> Email: </label><span style="font-weight:bold;">'+
 data.Email+ '</span></div></div>';
 
 
@@ -1079,7 +1079,7 @@ function printAllWaivers(){
 '</span> <label for="name" style= "padding-right:10px;padding-left:30px;"> Zip Code: ' + data[key[i]].ZipCode +'</label>'+
 ' </span></div>'+
  '<div class="form-group"><label for="name" style= "padding-right:10px;"> Phone Number:' +
-'</label><span style="font-weight:bold;">'+ data[key[i]].Phone + '</span><label for="name" style= "padding-right:10px; padding-left:30px;"> Email: </label>" + "<span style="font-weight:bold;">'+
+'</label><span style="font-weight:bold;">'+ data[key[i]].Phone + '</span><label for="name" style= "padding-right:10px; padding-left:30px;"> Email: </label><span style="font- weight:bold;">'+
 data[key[i]].Email+ '</span></div></div>';
 
 
@@ -1121,7 +1121,7 @@ data[key[i]].Email+ '</span></div></div>';
 '</span> <label for="name" style= "padding-right:10px;padding-left:30px;"> Zip Code: ' + data[key[i]].ZipCode +'</label>'+
 ' </span></div>'+
  '<div class="form-group"><label for="name" style= "padding-right:10px;"> Phone Number:' +
-'</label><span style="font-weight:bold;">'+ data[key[i]].Phone + '</span><label for="name" style= "padding-right:10px; padding-left:30px;"> Email: </label>" + "<span style="font-weight:bold;">'+
+'</label><span style="font-weight:bold;">'+ data[key[i]].Phone + '</span><label for="name" style= "padding-right:10px; padding-left:30px;"> Email: </label><span style="font-weight:bold;">'+
 data[key[i]].Email+ '</span></div></div>';
 
    		 printWaiv=waiver;
