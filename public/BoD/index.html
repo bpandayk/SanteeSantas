@@ -87,10 +87,12 @@
 		        </div>
           </div>
           
+
+
           <div class="col-md-9 col-sm-10" >
     		    <div class="container">
-              <div id = "insertDom"> </div>
-              <div id="insertWaiver" id="waiver" style="padding-top:20px; visibility:hidden;"></div>
+              <div id = "insertDom" style="page-break-after:always;"> </div>
+              <div id="insertWaiver" id="waiver" style="padding-top:20px; visibility:hidden; page-break-after:always;"></div>
  
  						 <!-- Modal -->
  						 <div class="modal fade" id="myModal" role="form" data-keyboard="false" data-backdrop="static">
@@ -103,20 +105,7 @@
          			 <h4 class="modal-title">Send Email</h4>
         			</div>
        			 <div class="modal-body">
- 								<!--<form>
-         			<div class="form-group">
-								<label> To</label>
-								<input type="text" id = "toemail">
-               </div>
-         			 <div class="form-group">
-								<label> Subject</label>
-								<input type="text" id="tosubject">
-               </div>
-         			 <div class="form-group">
-								<label> Message:</label>
-								<textarea rows="30" id="emailBody"></textarea>
-               </div>
-							</form>-->
+
 
 						<form>
   					<div class="form-group" id="puttoemail">
@@ -131,12 +120,14 @@
    				 <label for="Message" id="label2">Message</label>
   				  <textarea class="form-control" rows=20 id="bodyEmail" placeholder="Email Body"></textarea>
   					</div>
+							<div id = "mssg"> </div>
 						</form>
 
        			 </div>
         			<div class="modal-footer">
           		<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-							<button type="button" class="btn btn-primary"  onclick='sendEmail()'>Send</button>
+							<button type="button" class="btn btn-primary" id="sendEmailbt" disabled onclick='sendEmail()'>Send</button>
+
         		</div>
       		</div>
       

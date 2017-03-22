@@ -8,6 +8,8 @@ var sub;  //for email
 var body; //for email
 var emailList=[];
 var headTo = "";
+var printDet;
+var printWaiv;
 
  // Initialize Firebase
   var config = {
@@ -104,6 +106,14 @@ function checkUser(){
     ListAll(0);
 
 	} else {
+		var dom = '<label for="search"><hr/><h2>Admin Menu</h2></label>'+
+									'<div class="form-group">'+
+									'<input class="btn btn-primary btn-lg btn-block" type="submit" value="Volunteers" onclick="ListAll(0)" style="width:60%"></button>'+ 								
+								'</div>'+
+								'<div class="form-group">'+
+									'<input class="btn btn-primary btn-lg btn-block" type="submit" value="View members" onclick="displayMembersBOD()" style="width:60%"></button> '+								
+								'</div>';
+    document.getElementById("admindom").innerHTML=dom;
   	ListAll(0);
   }
 }
@@ -479,8 +489,8 @@ function ListByParam(name,minage, maxage, foodsort, toysort, delivery){
 
 
 function getDetail(alias){
-	var buttonT2 = '<div><input type="button" class="btn btn-primary btn-lg " value="Print" onclick="getDetail(1)">'+
-	'<div style="float:right;"><input type="button" class="btn btn-primary btn-lg " value="Save" onclick="getDetail(2)"></div></div>';
+	var buttonT2 = '<div><input type="button" class="btn btn-primary btn-lg " value="Print/Save" onclick="printWaiver()">'+
+	'<div style="float:right;"></div>';
 	var ref = firebase.database().ref("Volunteers/"+alias);
 	ref.once('value').then(function(snapshot){
     var ageGroup=1;
@@ -631,7 +641,7 @@ function getDetail(alias){
 		panel=panel+temp;
 		}  		
 
-
+    printDet = panel+end;
     temp = '<div id="viewbutton"><input type="button" class="btn btn-primary btn-lg " value="View Waiver" onclick="viewWaiver()" ></div>';
 		panel=panel+(end+temp);
             
@@ -640,7 +650,7 @@ function getDetail(alias){
     if (ageGroup==1){
        var waiver=	'<div class="panel panel-primary">'+
   					  '<div class="panel-heading"><h3 id="header">Waiver</h3></div>'+
-             ' <div class="panel-body">'+'<div>  '+       
+             ' <div class="panel-body">'+'<div id = "f1">  '+       
 							'<h2><span>Adult Volunteer Waiver Form</span></h2> '+ '<h4><span clasee="label">WAIVER, RELEASE OF ALL CLAIMS, AND HOLD HARMLESS AGREEMENT FOR ADULT PARTICIPATION IN SANTEE 									SANTAS FOUNDATION PROGRAMS.</span></h4></div>'+
 							'<div style="border:3px solid #73AD21; padding:10px;">'+ firstpart+       
  							'</div>'+
@@ -672,6 +682,7 @@ data.Email+ '</span></div></div>';
 
 
 
+    printWaiv=waiver;
 
     document.getElementById("insertWaiver").innerHTML= waiver+buttonT2;
 	  document.getElementById("insertWaiver").style.position="fixed";
@@ -685,7 +696,7 @@ data.Email+ '</span></div></div>';
     if(ageGroup==0){
        var waiver=	'<div class="panel panel-primary">'+
   					  '<div class="panel-heading"><h3 id="header">Waiver</h3></div>'+
-             ' <div class="panel-body">'+'<div>'+       
+             ' <div class="panel-body">'+'<div id = "f1">'+       
 							'<h2><span>Child(18 and under) Volunteer Waiver Form</span></h2> '+ '<h4><span clasee="label">WAIVER, RELEASE OF ALL CLAIMS, AND HOLD HARMLESS AGREEMENT FOR PERSON UNDER  18 YEARS OF AGE PARTICIPATION IN SANTEE SANTAS FOUNDATION PROGRAMS.</span></h4></div>'+
 							'<div style="border:3px solid #73AD21; padding:10px;">'+ firstpart+       
  							'</div>'+
@@ -718,7 +729,7 @@ data.Email+ '</span></div></div>';
 data.Email+ '</span></div></div>';
 
 
-
+    	 printWaiv=waiver;
    		 document.getElementById("insertWaiver").innerHTML=waiver+buttonT2;
        document.getElementById("insertWaiver").style.position="fixed";
    }
@@ -743,12 +754,14 @@ function hideWaiver(){
 
 
 function printWaiver(){
-
-}
-
-
-function savewaiver(){
-
+  var original = document.body.innerHTML;
+    var par = document.getElementById("mainrow");
+		var child = document.getElementById("leftcol");
+		par.removeChild(child);
+  document.getElementById("insertDom").innerHTML = (printDet);
+  document.getElementById("insertWaiver").innerHTML = printWaiv;
+  window.print();
+  document.body.innerHTML = original;
 }
 
 
@@ -806,13 +819,17 @@ function sendEmail(){
 
 
 	function sendInit(){
-		var ret = validateEmail();
-    console.log(ret);
+    if(headTo!=" "){
+			document.getElementById("sendEmailbt").disabled = false;
+			var ret = validateEmail();
+    	console.log(ret);
     
-    if(ret){
-	 		gapi.client.setApiKey(apiKey); // your variable for apiKey
-   		window.setTimeout(initalize,1);			
-    } 
+   	 if(ret){
+
+	 			gapi.client.setApiKey(apiKey); // your variable for apiKey
+   	 		window.setTimeout(initalize,1);			
+   	  } 
+		}
   }
 
 
@@ -840,6 +857,8 @@ function sendEmail(){
 
     sentRequest.execute(function(){
       console.log(arguments);
+			document.getElementById("mssg").innerHTML="<span style='color:red;'>Email sent successfully. Please click Close to Exit. </span>";
+			document.getElementById("sendEmailbt").disabled = true;
     });
   }
 
@@ -854,15 +873,276 @@ function sendEmail(){
 			if (emailList[i] != " ")
 				headTo+= (emailList[i]+',');
     }
-    headTo=" ";
+
     if (headTo!= " "){
 				document.getElementById("puttoemail").innerHTML='<label for="To">To</label><textarea class="form-control" id="ToEmail" placeholder='+headTo+' disabled></textarea>';
+				document.getElementById("sendEmailbt").disabled = false;
     } else {
 				document.getElementById("puttoemail").innerHTML="<span style='color:red'>Email List is empty.</span>";
+				document.getElementById("sendEmailbt").disabled = true;
     }
   }
 
 /*------------------------------------------------------------------------*/
+function printAllWaivers(){
+
+
+    var display = panel;
+    var count=1;
+	var ref = firebase.database().ref("Volunteers/");
+	ref.once('value').then(function(snapshot){
+    var data = snapshot.val();
+		var key = Object.keys(data);
+    var ageGroup=1;
+		var end='</table></div>';
+		var temp;
+    var datadetail=" ";
+    var dataWaiver=" ";
+    
+
+    for (i in key){
+		var panel = '<div class="panel panel-primary">'+
+  					'<div class="panel-heading"><h3 id="header">Details of '+data[key[i]].firstname+" "+data[key[i]].lastname+
+					'</h3></div>'+
+  					'<table class="table table-hover table-bordered">'+
+					'<tr>'+
+					'<td> Full Name </td>'+
+					'<td>'+data[key[i]].firstname+" "+data[key[i]].lastname+'</td>'+
+					'</tr>'+
+					'<tr>'+
+					'<td> Address </td>'+
+					'<td>'+data[key[i]].address1+'</td>'+
+					'</tr>';
+		
+		if(data[key[i]].address2!=" "){
+			temp=	'<tr>'+
+					'<td> Address 2 </td>'+
+					'<td>'+data[key[i]].address2+'</td>'+
+					'</tr>';
+			panel = panel+temp;
+		}
+
+		
+		temp = 	'<tr>'+
+				'<td> City </td>'+
+				'<td>'+data[key[i]].City+'</td>'+
+				'</tr><tr>'+
+				'<td> State </td>'+
+				'<td>'+data[key[i]].State+'</td>'+
+				'</tr><tr>'+
+				'<td> Zip </td>'+
+				'<td>'+data[key[i]].ZipCode+'</td>'+	
+				'</tr><tr>'+
+				'<td> Age </td>'+
+				'<td>'+data[key[i]].Age+'</td>'+
+				'</tr><tr>'+
+				'<td> Date Of Birth </td>'+
+				'<td>'+data[key[i]].DoB+'</td>'+
+				'</tr>';				
+					
+		panel=panel+temp;
+
+        if(data.Phone!=" "){
+			temp = '<tr>'+
+				'<td> Phone </td>'+
+				'<td>'+data[key[i]].Phone+'</td>'+
+				'</tr>';	
+		panel=panel+temp;
+		}  		
+		
+		
+        if(data.Email!=" "){
+			temp = '<tr>'+
+				'<td> Email </td>'+
+				'<td>'+data[key[i]].Email+'</td>'+
+				'</tr>';	
+		panel=panel+temp;
+		}  							
+
+		var val1=data[key[i]].FoodSort;
+		var val2=data[key[i]].ToySort;
+		var val3=data[key[i]].Delivery;
+    var val4=data[key[i]].Application_intake;
+    var val5=data[key[i]].Mailer;
+    var val6=data[key[i]].other_interests;
+
+	    var food,toy,delivery,application,mailer,other;
+	  
+		if(val1 == "true"){
+			food='&#10004';
+		}else{
+			food='<span style="color:red">&#10008</span>';
+		}
+
+		if(val2 == "true"){
+			toy='&#10004';
+		}else{
+			toy='<span style="color:red">&#10008</span>';
+		}
+
+		if(val3 == "true"){
+			delivery='&#10004';
+		}else{
+			delivery='<span style="color:red">&#10008</span>';
+		}
+
+		if(val4 == "true"){
+			mailer='&#10004';
+		}else{
+			mailer='<span style="color:red">&#10008</span>';
+		}
+
+		if(val5 == "true"){
+			application='&#10004';
+		}else{
+			application='<span style="color:red">&#10008</span>';
+		}
+
+		if(val6 == "true"){
+			other='&#10004';
+		}else{
+			other='<span style="color:red">&#10008</span>';
+		}
+
+		temp = 	'<tr>'+
+				'<td> Food Sorting </td>'+
+				'<td>'+food+'</td>'+
+				'</tr><tr>'+
+				'<td> Toy Sorting </td>'+
+				'<td>'+toy+'</td>'+
+				'</tr><tr>'+
+				'<td> Delivery </td>'+
+				'<td>'+delivery+'</td>'+
+        '</tr><tr>'+	
+				'<td> Mailer </td>'+
+				'<td>'+mailer+'</td>'+
+				'</tr><tr>'+
+				'<td> Application Intake </td>'+
+				'<td>'+application+'</td>'+
+				'</tr><tr>'+
+				'<td> Other Interest </td>'+
+				'<td>'+other+'</td>'+	
+				'</tr>';			
+		
+		
+		panel=panel+temp;
+
+    if(data[key[i]].Age < 18){
+		temp = '<tr>'+
+				'<td> Parents/Guardian Name </td>'+
+				'<td>'+data[key[i]].parentFirstName+ " " +data[key[i]].parentLastName+'</td>'+
+				'</tr>';	
+    ageGroup=0;
+		panel=panel+temp; 
+
+    }
+		
+        if(data[key[i]].Info!=" "){
+			temp = '<tr>'+
+				'<td> Additional Questions </td>'+
+				'<td>'+data[key[i]].Info+'</td>'+
+				'</tr>';	
+		panel=panel+temp;
+		}  		
+
+    printDet = panel+end;
+          
+
+
+    if (ageGroup==1){
+       var waiver=	'<div class="panel panel-primary">'+
+  					  '<div class="panel-heading"><h3 id="header">Waiver</h3></div>'+
+             ' <div class="panel-body">'+'<div id = "f1">  '+       
+							'<h2><span>Adult Volunteer Waiver Form</span></h2> '+ '<h4><span clasee="label">WAIVER, RELEASE OF ALL CLAIMS, AND HOLD HARMLESS AGREEMENT FOR ADULT PARTICIPATION IN SANTEE 									SANTAS FOUNDATION PROGRAMS.</span></h4></div>'+
+							'<div style="border:3px solid #73AD21; padding:10px;">'+ firstpart+       
+ 							'</div>'+
+							'<label for="photo"><h3>Photo Release</h3></label>'+
+             '<div style="border:3px solid #73AD21; padding:10px;">'+ secondpart+ adult+ 
+              '</div>'+
+            '<div class="form-group ">'+
+              '<div class="checkbox">'+
+                '<label for="agg1">'+
+                  '<input type="checkbox" id="waiver-agree" checked disabled> <span id="l0">'+
+                  'Click here to indicate that you agree to our terms and that you have read our Volunteers Waivers and Photo Release terms.</span>'+
+                '</label>'+
+              '</div></div></div></div>' +
+							'<div><div class="form-group">'+
+              '<label for="initials" id="l1">Applicant Initial: '+ data[key[i]].Initials+'</label>'+
+							
+            '</div>'+
+              '<div class="form-group"><label for="name" style= "padding-right:10px;"> Applicant Name: </label><span style="font-weight:bold;">'+data[key[i]].firstname+ ' ' + data.lastname +
+ '</span> </div>'+
+'<div class="form-group"><label for="name" style= "padding-right:10px;"> Applicant Address: </label>' + '<span style="font-weight:bold;">'+data[key[i]].address1 + '&nbsp&nbsp' +data[key[i]].address2+
+'</span> </div>'+
+'<div class="form-group"><label for="name" style= "padding-right:10px;"> City: </label> <span style="font-weight:bold;">'+data[key[i]].City+
+ '</span><label for="name" style= "padding-right:10px; padding-left:30px;"> State: </label><span style="font-weight:bold;">'+data[key[i]].State+ 
+'</span> <label for="name" style= "padding-right:10px;padding-left:30px;"> Zip Code: ' + data[key[i]].ZipCode +'</label>'+
+' </span></div>'+
+ '<div class="form-group"><label for="name" style= "padding-right:10px;"> Phone Number:' +
+'</label><span style="font-weight:bold;">'+ data[key[i]].Phone + '</span><label for="name" style= "padding-right:10px; padding-left:30px;"> Email: </label>" + "<span style="font-weight:bold;">'+
+data[key[i]].Email+ '</span></div></div>';
+
+
+
+    printWaiv=waiver;
+
+		}
+ 
+
+    if(ageGroup==0){
+       var waiver=	'<div class="panel panel-primary">'+
+  					  '<div class="panel-heading"><h3 id="header">Waiver</h3></div>'+
+             ' <div class="panel-body">'+'<div id = "f1">'+       
+							'<h2><span>Child(18 and under) Volunteer Waiver Form</span></h2> '+ '<h4><span clasee="label">WAIVER, RELEASE OF ALL CLAIMS, AND HOLD HARMLESS AGREEMENT FOR PERSON UNDER  18 YEARS OF AGE PARTICIPATION IN SANTEE SANTAS FOUNDATION PROGRAMS.</span></h4></div>'+
+							'<div style="border:3px solid #73AD21; padding:10px;">'+ firstpart+       
+ 							'</div>'+
+							'<label for="photo"><h3>Photo Release</h3></label>'+
+             '<div style="border:3px solid #73AD21; padding:10px;">'+ secondpart+ adult+  
+              '</div>'+
+            '<div class="form-group ">'+
+              '<div class="checkbox">'+
+                '<label for="agg1">'+
+                  '<input type="checkbox" id="waiver-agree" checked disabled> <span id="l0">'+
+                  'Click here to indicate that you agree to our terms and that you have read our Volunteers Waivers and Photo Release terms.</span>'+
+                '</label>'+
+              '</div>'+
+            '</div></div></div>'+
+'<div> <div class="form-group "><div class="form-inline">'+
+              '<label for="initials" id="l1">Applicant Initial: '+ data[key[i]].Initials+'</label>'+
+							'<label for="initials" style="padding-left:20px" id="l2">Parent/Guardian Initial: '+data[key[i]].parentInitials+'</label>'+
+            '</div></div>'+
+              '<div class="form-group"><label for="name" style= "padding-right:10px;"> Applicant Name: </label><span style="font-weight:bold;">'+data[key[i]].firstname+ ' ' + data.lastname +
+ '</span> </div>'+
+'<div class="form-group"><label for="name" style= "padding-right:10px;"> Applicant Guardian/Parent: </label><span style="font-weight:bold;">'+data[key[i]].parentFirstName+ ' '+ data.parentLastName+'</span></div>'+
+'<div class="form-group"><label for="name" style= "padding-right:10px;"> Applicant Address: </label>' + '<span style="font-weight:bold;">'+data[key[i]].address1 + '&nbsp&nbsp' +data[key[i]].address2+
+'</span> </div>'+
+'<div class="form-group"><label for="name" style= "padding-right:10px;"> City: </label> <span style="font-weight:bold;">'+data[key[i]].City+
+ '</span><label for="name" style= "padding-right:10px; padding-left:30px;"> State: </label><span style="font-weight:bold;">'+data[key[i]].State+ 
+'</span> <label for="name" style= "padding-right:10px;padding-left:30px;"> Zip Code: ' + data[key[i]].ZipCode +'</label>'+
+' </span></div>'+
+ '<div class="form-group"><label for="name" style= "padding-right:10px;"> Phone Number:' +
+'</label><span style="font-weight:bold;">'+ data[key[i]].Phone + '</span><label for="name" style= "padding-right:10px; padding-left:30px;"> Email: </label>" + "<span style="font-weight:bold;">'+
+data[key[i]].Email+ '</span></div></div>';
+
+   		 printWaiv=waiver;
+  	 }
+		 printDet =  '<div style="page-break-after:always;">'+printDet+'</div>';
+     printWaiv =  '<div style="page-break-after:always;">'+printWaiv+'</div>';
+ 		 dataWaiver += (printDet + printWaiv);
+
+ 	 }
+  	var original = document.body.innerHTML;
+    var par = document.getElementById("mainrow");
+		var child = document.getElementById("leftcol");
+		par.removeChild(child);
+  	document.getElementById("insertDom").innerHTML = dataWaiver
+  	document.getElementById("insertWaiver").innerHTML =" ";
+  	window.print();
+    document.body.innerHTML = original;
+
+	});
+	
+}
 
 
 
