@@ -12,13 +12,14 @@ var printDet;
 var printWaiv;
 
  // Initialize Firebase
- var config = {
+  var config = {
     apiKey: "AIzaSyDzNFZIpou2Rag_5zJwiR0nZNJxvxH7YEo",
     authDomain: "santeesanta-c540f.firebaseapp.com",
     databaseURL: "https://santeesanta-c540f.firebaseio.com",
     storageBucket: "santeesanta-c540f.appspot.com",
     messagingSenderId: "168894068507"
   };
+
   firebase.initializeApp(config);
 
 var client_ID = '168894068507-9hidggcbih727gp3j5avvibk1n8ef65v.apps.googleusercontent.com';

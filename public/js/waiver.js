@@ -27,7 +27,7 @@ var agegroup=2;
 
 
   // Initialize Firebase
- var config = {
+  var config = {
     apiKey: "AIzaSyDzNFZIpou2Rag_5zJwiR0nZNJxvxH7YEo",
     authDomain: "santeesanta-c540f.firebaseapp.com",
     databaseURL: "https://santeesanta-c540f.firebaseio.com",
