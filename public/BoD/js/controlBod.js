@@ -12,8 +12,8 @@ var printDet;
 var printWaiv;
 
  // Initialize Firebase
-  var config = {
-    apiKey: "AIzaSyA6JtrlqORiTv0N8UidMQ3L2kk9Jz1o_g8",
+ var config = {
+    apiKey: "AIzaSyDzNFZIpou2Rag_5zJwiR0nZNJxvxH7YEo",
     authDomain: "santeesanta-c540f.firebaseapp.com",
     databaseURL: "https://santeesanta-c540f.firebaseio.com",
     storageBucket: "santeesanta-c540f.appspot.com",
